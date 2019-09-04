@@ -28,12 +28,13 @@ Running the make in a separate directory will allow easy cleanup of the build da
 To build and run this program, navigate to the correct directory. Make a new 'build' directory, cmake in previous directory, then make in the build directory. Then run the program with the shader file names as command line arguments.
 
 Example:
-...
+```
 mkdir build
 cd build
 cmake ..
 make
 ./Tutorial cube_shader-v.txt cube_shader-f.txt
+```
 
 Note: Make sure that the vertex shader (cube_shader-v.txt) is first in the command line.
 
