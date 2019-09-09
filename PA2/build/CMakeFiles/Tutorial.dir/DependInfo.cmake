@@ -4,13 +4,13 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/christian/Desktop/cs480/computer-graphics/PA1/src/camera.cpp" "/home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles/Tutorial.dir/src/camera.cpp.o"
-  "/home/christian/Desktop/cs480/computer-graphics/PA1/src/engine.cpp" "/home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles/Tutorial.dir/src/engine.cpp.o"
-  "/home/christian/Desktop/cs480/computer-graphics/PA1/src/graphics.cpp" "/home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles/Tutorial.dir/src/graphics.cpp.o"
-  "/home/christian/Desktop/cs480/computer-graphics/PA1/src/main.cpp" "/home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles/Tutorial.dir/src/main.cpp.o"
-  "/home/christian/Desktop/cs480/computer-graphics/PA1/src/object.cpp" "/home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles/Tutorial.dir/src/object.cpp.o"
-  "/home/christian/Desktop/cs480/computer-graphics/PA1/src/shader.cpp" "/home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles/Tutorial.dir/src/shader.cpp.o"
-  "/home/christian/Desktop/cs480/computer-graphics/PA1/src/window.cpp" "/home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles/Tutorial.dir/src/window.cpp.o"
+  "/home/christian/Desktop/cs480/computer-graphics/PA2/src/camera.cpp" "/home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles/Tutorial.dir/src/camera.cpp.o"
+  "/home/christian/Desktop/cs480/computer-graphics/PA2/src/engine.cpp" "/home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles/Tutorial.dir/src/engine.cpp.o"
+  "/home/christian/Desktop/cs480/computer-graphics/PA2/src/graphics.cpp" "/home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles/Tutorial.dir/src/graphics.cpp.o"
+  "/home/christian/Desktop/cs480/computer-graphics/PA2/src/main.cpp" "/home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles/Tutorial.dir/src/main.cpp.o"
+  "/home/christian/Desktop/cs480/computer-graphics/PA2/src/object.cpp" "/home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles/Tutorial.dir/src/object.cpp.o"
+  "/home/christian/Desktop/cs480/computer-graphics/PA2/src/shader.cpp" "/home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles/Tutorial.dir/src/shader.cpp.o"
+  "/home/christian/Desktop/cs480/computer-graphics/PA2/src/window.cpp" "/home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles/Tutorial.dir/src/window.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

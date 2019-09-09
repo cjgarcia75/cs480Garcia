@@ -6,5 +6,5 @@ CXX_FLAGS =  -std=gnu++11
 
 CXX_DEFINES = -DUNIX
 
-CXX_INCLUDES = -I/home/christian/Desktop/cs480/computer-graphics/PA1/include -I/usr/include/SDL2 
+CXX_INCLUDES = -I/home/christian/Desktop/cs480/computer-graphics/PA2/include -I/usr/include/SDL2 
 

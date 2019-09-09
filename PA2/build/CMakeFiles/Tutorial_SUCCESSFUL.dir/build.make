@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/christian/Desktop/cs480/computer-graphics/PA1
+CMAKE_SOURCE_DIR = /home/christian/Desktop/cs480/computer-graphics/PA2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/christian/Desktop/cs480/computer-graphics/PA1/build
+CMAKE_BINARY_DIR = /home/christian/Desktop/cs480/computer-graphics/PA2/build
 
 # Utility rule file for Tutorial_SUCCESSFUL.
 
@@ -54,12 +54,12 @@ CMAKE_BINARY_DIR = /home/christian/Desktop/cs480/computer-graphics/PA1/build
 include CMakeFiles/Tutorial_SUCCESSFUL.dir/progress.make
 
 CMakeFiles/Tutorial_SUCCESSFUL: Tutorial
-	/usr/bin/cmake -E copy_directory /home/christian/Desktop/cs480/computer-graphics/PA1/shaders/ /home/christian/Desktop/cs480/computer-graphics/PA1/build/shaders
+	/usr/bin/cmake -E copy_directory /home/christian/Desktop/cs480/computer-graphics/PA2/shaders/ /home/christian/Desktop/cs480/computer-graphics/PA2/build/shaders
 	/usr/bin/cmake -E echo 
 	/usr/bin/cmake -E echo =====================
 	/usr/bin/cmake -E echo \ \ Compile\ complete!
 	/usr/bin/cmake -E echo =====================
-	/usr/bin/cmake -E echo /home/christian/Desktop/cs480/computer-graphics/PA1/build
+	/usr/bin/cmake -E echo /home/christian/Desktop/cs480/computer-graphics/PA2/build
 
 Tutorial_SUCCESSFUL: CMakeFiles/Tutorial_SUCCESSFUL
 Tutorial_SUCCESSFUL: CMakeFiles/Tutorial_SUCCESSFUL.dir/build.make
@@ -76,6 +76,6 @@ CMakeFiles/Tutorial_SUCCESSFUL.dir/clean:
 .PHONY : CMakeFiles/Tutorial_SUCCESSFUL.dir/clean
 
 CMakeFiles/Tutorial_SUCCESSFUL.dir/depend:
-	cd /home/christian/Desktop/cs480/computer-graphics/PA1/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/christian/Desktop/cs480/computer-graphics/PA1 /home/christian/Desktop/cs480/computer-graphics/PA1 /home/christian/Desktop/cs480/computer-graphics/PA1/build /home/christian/Desktop/cs480/computer-graphics/PA1/build /home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles/Tutorial_SUCCESSFUL.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/christian/Desktop/cs480/computer-graphics/PA2/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/christian/Desktop/cs480/computer-graphics/PA2 /home/christian/Desktop/cs480/computer-graphics/PA2 /home/christian/Desktop/cs480/computer-graphics/PA2/build /home/christian/Desktop/cs480/computer-graphics/PA2/build /home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles/Tutorial_SUCCESSFUL.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/Tutorial_SUCCESSFUL.dir/depend
 

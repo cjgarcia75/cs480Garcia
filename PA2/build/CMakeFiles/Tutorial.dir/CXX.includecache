@@ -72,33 +72,33 @@ SDL2/SDL.h
 string
 -
 
-/home/christian/Desktop/cs480/computer-graphics/PA1/src/camera.cpp
+/home/christian/Desktop/cs480/computer-graphics/PA2/src/camera.cpp
 camera.h
-/home/christian/Desktop/cs480/computer-graphics/PA1/src/camera.h
+/home/christian/Desktop/cs480/computer-graphics/PA2/src/camera.h
 
-/home/christian/Desktop/cs480/computer-graphics/PA1/src/engine.cpp
+/home/christian/Desktop/cs480/computer-graphics/PA2/src/engine.cpp
 engine.h
-/home/christian/Desktop/cs480/computer-graphics/PA1/src/engine.h
+/home/christian/Desktop/cs480/computer-graphics/PA2/src/engine.h
 
-/home/christian/Desktop/cs480/computer-graphics/PA1/src/graphics.cpp
+/home/christian/Desktop/cs480/computer-graphics/PA2/src/graphics.cpp
 graphics.h
-/home/christian/Desktop/cs480/computer-graphics/PA1/src/graphics.h
+/home/christian/Desktop/cs480/computer-graphics/PA2/src/graphics.h
 
-/home/christian/Desktop/cs480/computer-graphics/PA1/src/main.cpp
+/home/christian/Desktop/cs480/computer-graphics/PA2/src/main.cpp
 iostream
 -
 engine.h
-/home/christian/Desktop/cs480/computer-graphics/PA1/src/engine.h
+/home/christian/Desktop/cs480/computer-graphics/PA2/src/engine.h
 
-/home/christian/Desktop/cs480/computer-graphics/PA1/src/object.cpp
+/home/christian/Desktop/cs480/computer-graphics/PA2/src/object.cpp
 object.h
-/home/christian/Desktop/cs480/computer-graphics/PA1/src/object.h
+/home/christian/Desktop/cs480/computer-graphics/PA2/src/object.h
 
-/home/christian/Desktop/cs480/computer-graphics/PA1/src/shader.cpp
+/home/christian/Desktop/cs480/computer-graphics/PA2/src/shader.cpp
 shader.h
-/home/christian/Desktop/cs480/computer-graphics/PA1/src/shader.h
+/home/christian/Desktop/cs480/computer-graphics/PA2/src/shader.h
 
-/home/christian/Desktop/cs480/computer-graphics/PA1/src/window.cpp
+/home/christian/Desktop/cs480/computer-graphics/PA2/src/window.cpp
 window.h
 -
 

@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/christian/Desktop/cs480/computer-graphics/PA1
+CMAKE_SOURCE_DIR = /home/christian/Desktop/cs480/computer-graphics/PA2
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/christian/Desktop/cs480/computer-graphics/PA1/build
+CMAKE_BINARY_DIR = /home/christian/Desktop/cs480/computer-graphics/PA2/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Tutorial.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/Tutorial.dir/flags.make
 
 CMakeFiles/Tutorial.dir/src/graphics.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/graphics.cpp.o: ../src/graphics.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Tutorial.dir/src/graphics.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/graphics.cpp.o -c /home/christian/Desktop/cs480/computer-graphics/PA1/src/graphics.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Tutorial.dir/src/graphics.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/graphics.cpp.o -c /home/christian/Desktop/cs480/computer-graphics/PA2/src/graphics.cpp
 
 CMakeFiles/Tutorial.dir/src/graphics.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Tutorial.dir/src/graphics.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/christian/Desktop/cs480/computer-graphics/PA1/src/graphics.cpp > CMakeFiles/Tutorial.dir/src/graphics.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/christian/Desktop/cs480/computer-graphics/PA2/src/graphics.cpp > CMakeFiles/Tutorial.dir/src/graphics.cpp.i
 
 CMakeFiles/Tutorial.dir/src/graphics.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Tutorial.dir/src/graphics.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/christian/Desktop/cs480/computer-graphics/PA1/src/graphics.cpp -o CMakeFiles/Tutorial.dir/src/graphics.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/christian/Desktop/cs480/computer-graphics/PA2/src/graphics.cpp -o CMakeFiles/Tutorial.dir/src/graphics.cpp.s
 
 CMakeFiles/Tutorial.dir/src/graphics.cpp.o.requires:
 
@@ -83,16 +83,16 @@ CMakeFiles/Tutorial.dir/src/graphics.cpp.o.provides.build: CMakeFiles/Tutorial.d
 
 CMakeFiles/Tutorial.dir/src/engine.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/engine.cpp.o: ../src/engine.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Tutorial.dir/src/engine.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/engine.cpp.o -c /home/christian/Desktop/cs480/computer-graphics/PA1/src/engine.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Tutorial.dir/src/engine.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/engine.cpp.o -c /home/christian/Desktop/cs480/computer-graphics/PA2/src/engine.cpp
 
 CMakeFiles/Tutorial.dir/src/engine.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Tutorial.dir/src/engine.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/christian/Desktop/cs480/computer-graphics/PA1/src/engine.cpp > CMakeFiles/Tutorial.dir/src/engine.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/christian/Desktop/cs480/computer-graphics/PA2/src/engine.cpp > CMakeFiles/Tutorial.dir/src/engine.cpp.i
 
 CMakeFiles/Tutorial.dir/src/engine.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Tutorial.dir/src/engine.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/christian/Desktop/cs480/computer-graphics/PA1/src/engine.cpp -o CMakeFiles/Tutorial.dir/src/engine.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/christian/Desktop/cs480/computer-graphics/PA2/src/engine.cpp -o CMakeFiles/Tutorial.dir/src/engine.cpp.s
 
 CMakeFiles/Tutorial.dir/src/engine.cpp.o.requires:
 
@@ -107,16 +107,16 @@ CMakeFiles/Tutorial.dir/src/engine.cpp.o.provides.build: CMakeFiles/Tutorial.dir
 
 CMakeFiles/Tutorial.dir/src/object.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/object.cpp.o: ../src/object.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Tutorial.dir/src/object.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/object.cpp.o -c /home/christian/Desktop/cs480/computer-graphics/PA1/src/object.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Tutorial.dir/src/object.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/object.cpp.o -c /home/christian/Desktop/cs480/computer-graphics/PA2/src/object.cpp
 
 CMakeFiles/Tutorial.dir/src/object.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Tutorial.dir/src/object.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/christian/Desktop/cs480/computer-graphics/PA1/src/object.cpp > CMakeFiles/Tutorial.dir/src/object.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/christian/Desktop/cs480/computer-graphics/PA2/src/object.cpp > CMakeFiles/Tutorial.dir/src/object.cpp.i
 
 CMakeFiles/Tutorial.dir/src/object.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Tutorial.dir/src/object.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/christian/Desktop/cs480/computer-graphics/PA1/src/object.cpp -o CMakeFiles/Tutorial.dir/src/object.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/christian/Desktop/cs480/computer-graphics/PA2/src/object.cpp -o CMakeFiles/Tutorial.dir/src/object.cpp.s
 
 CMakeFiles/Tutorial.dir/src/object.cpp.o.requires:
 
@@ -131,16 +131,16 @@ CMakeFiles/Tutorial.dir/src/object.cpp.o.provides.build: CMakeFiles/Tutorial.dir
 
 CMakeFiles/Tutorial.dir/src/window.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/window.cpp.o: ../src/window.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Tutorial.dir/src/window.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/window.cpp.o -c /home/christian/Desktop/cs480/computer-graphics/PA1/src/window.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Tutorial.dir/src/window.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/window.cpp.o -c /home/christian/Desktop/cs480/computer-graphics/PA2/src/window.cpp
 
 CMakeFiles/Tutorial.dir/src/window.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Tutorial.dir/src/window.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/christian/Desktop/cs480/computer-graphics/PA1/src/window.cpp > CMakeFiles/Tutorial.dir/src/window.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/christian/Desktop/cs480/computer-graphics/PA2/src/window.cpp > CMakeFiles/Tutorial.dir/src/window.cpp.i
 
 CMakeFiles/Tutorial.dir/src/window.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Tutorial.dir/src/window.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/christian/Desktop/cs480/computer-graphics/PA1/src/window.cpp -o CMakeFiles/Tutorial.dir/src/window.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/christian/Desktop/cs480/computer-graphics/PA2/src/window.cpp -o CMakeFiles/Tutorial.dir/src/window.cpp.s
 
 CMakeFiles/Tutorial.dir/src/window.cpp.o.requires:
 
@@ -155,16 +155,16 @@ CMakeFiles/Tutorial.dir/src/window.cpp.o.provides.build: CMakeFiles/Tutorial.dir
 
 CMakeFiles/Tutorial.dir/src/camera.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/camera.cpp.o: ../src/camera.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Tutorial.dir/src/camera.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/camera.cpp.o -c /home/christian/Desktop/cs480/computer-graphics/PA1/src/camera.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Tutorial.dir/src/camera.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/camera.cpp.o -c /home/christian/Desktop/cs480/computer-graphics/PA2/src/camera.cpp
 
 CMakeFiles/Tutorial.dir/src/camera.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Tutorial.dir/src/camera.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/christian/Desktop/cs480/computer-graphics/PA1/src/camera.cpp > CMakeFiles/Tutorial.dir/src/camera.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/christian/Desktop/cs480/computer-graphics/PA2/src/camera.cpp > CMakeFiles/Tutorial.dir/src/camera.cpp.i
 
 CMakeFiles/Tutorial.dir/src/camera.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Tutorial.dir/src/camera.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/christian/Desktop/cs480/computer-graphics/PA1/src/camera.cpp -o CMakeFiles/Tutorial.dir/src/camera.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/christian/Desktop/cs480/computer-graphics/PA2/src/camera.cpp -o CMakeFiles/Tutorial.dir/src/camera.cpp.s
 
 CMakeFiles/Tutorial.dir/src/camera.cpp.o.requires:
 
@@ -179,16 +179,16 @@ CMakeFiles/Tutorial.dir/src/camera.cpp.o.provides.build: CMakeFiles/Tutorial.dir
 
 CMakeFiles/Tutorial.dir/src/shader.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/shader.cpp.o: ../src/shader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Tutorial.dir/src/shader.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/shader.cpp.o -c /home/christian/Desktop/cs480/computer-graphics/PA1/src/shader.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Tutorial.dir/src/shader.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/shader.cpp.o -c /home/christian/Desktop/cs480/computer-graphics/PA2/src/shader.cpp
 
 CMakeFiles/Tutorial.dir/src/shader.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Tutorial.dir/src/shader.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/christian/Desktop/cs480/computer-graphics/PA1/src/shader.cpp > CMakeFiles/Tutorial.dir/src/shader.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/christian/Desktop/cs480/computer-graphics/PA2/src/shader.cpp > CMakeFiles/Tutorial.dir/src/shader.cpp.i
 
 CMakeFiles/Tutorial.dir/src/shader.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Tutorial.dir/src/shader.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/christian/Desktop/cs480/computer-graphics/PA1/src/shader.cpp -o CMakeFiles/Tutorial.dir/src/shader.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/christian/Desktop/cs480/computer-graphics/PA2/src/shader.cpp -o CMakeFiles/Tutorial.dir/src/shader.cpp.s
 
 CMakeFiles/Tutorial.dir/src/shader.cpp.o.requires:
 
@@ -203,16 +203,16 @@ CMakeFiles/Tutorial.dir/src/shader.cpp.o.provides.build: CMakeFiles/Tutorial.dir
 
 CMakeFiles/Tutorial.dir/src/main.cpp.o: CMakeFiles/Tutorial.dir/flags.make
 CMakeFiles/Tutorial.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Tutorial.dir/src/main.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/main.cpp.o -c /home/christian/Desktop/cs480/computer-graphics/PA1/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Tutorial.dir/src/main.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Tutorial.dir/src/main.cpp.o -c /home/christian/Desktop/cs480/computer-graphics/PA2/src/main.cpp
 
 CMakeFiles/Tutorial.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Tutorial.dir/src/main.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/christian/Desktop/cs480/computer-graphics/PA1/src/main.cpp > CMakeFiles/Tutorial.dir/src/main.cpp.i
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/christian/Desktop/cs480/computer-graphics/PA2/src/main.cpp > CMakeFiles/Tutorial.dir/src/main.cpp.i
 
 CMakeFiles/Tutorial.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Tutorial.dir/src/main.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/christian/Desktop/cs480/computer-graphics/PA1/src/main.cpp -o CMakeFiles/Tutorial.dir/src/main.cpp.s
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/christian/Desktop/cs480/computer-graphics/PA2/src/main.cpp -o CMakeFiles/Tutorial.dir/src/main.cpp.s
 
 CMakeFiles/Tutorial.dir/src/main.cpp.o.requires:
 
@@ -252,7 +252,7 @@ Tutorial: /usr/lib/x86_64-linux-gnu/libGL.so
 Tutorial: /usr/lib/x86_64-linux-gnu/libSDL2main.a
 Tutorial: /usr/lib/x86_64-linux-gnu/libSDL2.so
 Tutorial: CMakeFiles/Tutorial.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable Tutorial"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable Tutorial"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Tutorial.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -275,6 +275,6 @@ CMakeFiles/Tutorial.dir/clean:
 .PHONY : CMakeFiles/Tutorial.dir/clean
 
 CMakeFiles/Tutorial.dir/depend:
-	cd /home/christian/Desktop/cs480/computer-graphics/PA1/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/christian/Desktop/cs480/computer-graphics/PA1 /home/christian/Desktop/cs480/computer-graphics/PA1 /home/christian/Desktop/cs480/computer-graphics/PA1/build /home/christian/Desktop/cs480/computer-graphics/PA1/build /home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles/Tutorial.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/christian/Desktop/cs480/computer-graphics/PA2/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/christian/Desktop/cs480/computer-graphics/PA2 /home/christian/Desktop/cs480/computer-graphics/PA2 /home/christian/Desktop/cs480/computer-graphics/PA2/build /home/christian/Desktop/cs480/computer-graphics/PA2/build /home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles/Tutorial.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/Tutorial.dir/depend
 

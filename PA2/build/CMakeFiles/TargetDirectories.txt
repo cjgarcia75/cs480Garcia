@@ -1,4 +1,4 @@
-/home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles/edit_cache.dir
-/home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles/Tutorial_SUCCESSFUL.dir
-/home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles/rebuild_cache.dir
-/home/christian/Desktop/cs480/computer-graphics/PA1/build/CMakeFiles/Tutorial.dir
+/home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles/edit_cache.dir
+/home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles/Tutorial_SUCCESSFUL.dir
+/home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles/rebuild_cache.dir
+/home/christian/Desktop/cs480/computer-graphics/PA2/build/CMakeFiles/Tutorial.dir

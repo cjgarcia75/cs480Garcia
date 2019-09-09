@@ -1,4 +1,4 @@
-# Install script for directory: /home/christian/Desktop/cs480/computer-graphics/PA1
+# Install script for directory: /home/christian/Desktop/cs480/computer-graphics/PA2
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/christian/Desktop/cs480/computer-graphics/PA1/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/christian/Desktop/cs480/computer-graphics/PA2/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
