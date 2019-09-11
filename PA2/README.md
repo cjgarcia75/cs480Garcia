@@ -25,6 +25,8 @@ The second option is to use the provided Makefile which is used as usual.
 Running the make in a separate directory will allow easy cleanup of the build data, and an easy way to prevent unnecessary data to be added to the git repository.  
 
 ### Building
+Delete the existing build folder before building.
+
 To build and run this program, navigate to the correct directory. Make a new 'build' directory, cmake in previous directory, then make in the build directory. Then run the program with the shader file names as command line arguments.
 
 Example:
