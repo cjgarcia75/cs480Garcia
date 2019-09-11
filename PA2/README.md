@@ -40,6 +40,7 @@ Note: Make sure that the vertex shader (cube_shader-v.txt) is first in the comma
 
 ### Controls
 A key: stop/change spin direction.
+
 Left mouse click: stop/change orbit direction.
 
 
