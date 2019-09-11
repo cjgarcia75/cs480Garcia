@@ -9,7 +9,7 @@ class Object
   public:
     Object();
     ~Object();
-    void Update(unsigned int dt);
+    void Update(unsigned int dt, int spin, int rot);
     void Render();
 
     glm::mat4 GetModel();
@@ -22,6 +22,9 @@ class Object
     GLuint IB;
 
     float angle;
+    float angle1;
+    
+    float SetAngle(unsigned int dt, int x, float angle);
 };
 
 #endif /* OBJECT_H */

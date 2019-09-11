@@ -32,6 +32,9 @@ class Engine
     unsigned int m_DT;
     long long m_currentTimeMillis;
     bool m_running;
+    
+    int spin;
+    int rot;
 };
 
 #endif // ENGINE_H

@@ -45,6 +45,9 @@ bool Engine::Initialize(std::string vsFile, std::string fsFile)
 
   // Set the time
   m_currentTimeMillis = GetCurrentTimeMillis();
+  
+  spin = 1;
+  rot = 1;
 
   // No errors
   return true;
@@ -66,7 +69,7 @@ void Engine::Run()
     }
 
     // Update and render the graphics
-    m_graphics->Update(m_DT);
+    m_graphics->Update(m_DT, spin, rot);
     m_graphics->Render();
 
     // Swap to the Window
@@ -86,6 +89,29 @@ void Engine::Keyboard()
     if (m_event.key.keysym.sym == SDLK_ESCAPE)
     {
       m_running = false;
+    }
+    // spinning of cube
+    if (m_event.key.keysym.sym == SDLK_a)
+    {
+      if(spin == 1)
+        spin = 0;
+      else if(spin == 0)
+        spin = -1;
+      else if(spin == -1)
+        spin = 1;
+    }
+  }
+  // orbit of cube
+  else if (m_event.type == SDL_MOUSEBUTTONDOWN)
+  {
+    if (m_event.button.button == SDL_BUTTON_LEFT)
+    {
+      if(rot == 1)
+        rot = 0;
+      else if(rot == 0)
+        rot = -1;
+      else if(rot == -1)
+        rot = 1;
     }
   }
 }

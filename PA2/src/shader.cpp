@@ -88,7 +88,7 @@ std::string Shader::ReadShader(std::string fileName)
     contents << file.rdbuf();
     file.close();
     
-    std::cout << contents.str();
+    //std::cout << contents.str();
     
     return(contents.str());
 }

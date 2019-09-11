@@ -77,11 +77,25 @@ Object::~Object()
   Indices.clear();
 }
 
-void Object::Update(unsigned int dt)
+void Object::Update(unsigned int dt, int spin, int rot)
 {
-  angle += dt * M_PI/1000;
-  model = glm::translate(glm::mat4(1.0f), glm::vec3((5 * cos(angle)), 0.0, (-5 * sin(angle))));
-  model = glm::rotate(model, (angle * 2), glm::vec3(0.0, 1.0, 0.0));
+  angle = SetAngle(dt, rot, angle);
+  angle1 = SetAngle(dt, spin, angle1);
+    
+  model = glm::translate(glm::mat4(1.0f), glm::vec3((3 * cos(angle)), 0.0, (3 * sin(angle))));
+  model = glm::rotate(model, (angle1), glm::vec3(0.0, 1.0, 0.0));
+}
+
+float Object::SetAngle(unsigned int dt, int x, float angle)
+{
+  if(x == 1)
+    angle += dt * M_PI/1000;
+  else if(x == -1)
+    angle -= dt * M_PI/1000;
+  else
+    angle = angle;
+    
+  return angle;
 }
 
 glm::mat4 Object::GetModel()

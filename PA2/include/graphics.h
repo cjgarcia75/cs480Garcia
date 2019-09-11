@@ -15,7 +15,7 @@ class Graphics
     Graphics();
     ~Graphics();
     bool Initialize(int width, int height, std::string vsFile, std::string fsFile);
-    void Update(unsigned int dt);
+    void Update(unsigned int dt, int spin, int rot);
     void Render();
 
   private:

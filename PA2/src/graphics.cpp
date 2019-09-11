@@ -107,10 +107,10 @@ bool Graphics::Initialize(int width, int height, std::string vsFile, std::string
   return true;
 }
 
-void Graphics::Update(unsigned int dt)
+void Graphics::Update(unsigned int dt, int spin, int rot)
 {
   // Update the object
-  m_cube->Update(dt);
+  m_cube->Update(dt, spin, rot);
 }
 
 void Graphics::Render()

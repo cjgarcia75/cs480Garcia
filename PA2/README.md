@@ -24,6 +24,25 @@ The second option is to use the provided Makefile which is used as usual.
 
 Running the make in a separate directory will allow easy cleanup of the build data, and an easy way to prevent unnecessary data to be added to the git repository.  
 
+### Building
+To build and run this program, navigate to the correct directory. Make a new 'build' directory, cmake in previous directory, then make in the build directory. Then run the program with the shader file names as command line arguments.
+
+Example:
+```
+mkdir build
+cd build
+cmake ..
+make
+./Tutorial cube_shader-v.txt cube_shader-f.txt
+```
+
+Note: Make sure that the vertex shader (cube_shader-v.txt) is first in the command line.
+
+### Controls
+A key: stop/change spin direction.
+Left mouse click: stop/change orbit direction.
+
+
 ### CMake Instructions
 The building of the project is done using CMake, installation with apt-get or brew may be necessary. Later use with CMake and Shader files will be require the copy of a directory where those files are stored (ex. shaders). To do this in the ```add_custom_target``` function place 
 ```cmake
