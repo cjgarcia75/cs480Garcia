@@ -1,4 +1,4 @@
-# PA3: Assimp and Model Loading
+# PA5: Assimp and Model Loading
 ### Christian Garcia
 
 # Project description
