@@ -1,4 +1,4 @@
-# PA5: Assimp with Textures
+# PA6: Assimp with Textures
 ### Christian Garcia
 
 # Project description
