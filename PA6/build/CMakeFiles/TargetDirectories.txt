@@ -1,0 +1,4 @@
+/home/christian/Desktop/cs480/PA6/build/CMakeFiles/edit_cache.dir
+/home/christian/Desktop/cs480/PA6/build/CMakeFiles/Tutorial_SUCCESSFUL.dir
+/home/christian/Desktop/cs480/PA6/build/CMakeFiles/rebuild_cache.dir
+/home/christian/Desktop/cs480/PA6/build/CMakeFiles/Tutorial.dir
