@@ -1,0 +1,12 @@
+../assets/space.jpg
+../assets/sun.jpg
+../assets/mercury.jpg
+../assets/venus.jpg
+../assets/earth.jpg
+../assets/moon.jpg
+../assets/mars.jpg
+../assets/jupiter.jpg
+../assets/saturn.jpg
+../assets/uranus.jpg
+../assets/neptune.jpg
+../assets/pluto.jpg
