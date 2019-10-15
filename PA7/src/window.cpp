@@ -1,5 +1,6 @@
 #include <window.h>
 
+
 Window::Window()
 {
   gWindow = NULL;
@@ -57,6 +58,17 @@ bool Window::Initialize(const string &name, int* width, int* height)
     return false;
   }
 
+  //Menus?
+  IMGUI_CHECKVERSION();
+  ImGui::CreateContext();
+
+  // Setup Dear ImGui style
+  ImGui::StyleColorsDark();
+
+  // Setup Platform/Renderer bindings
+  ImGui_ImplSDL2_InitForOpenGL(gWindow, gContext);
+  ImGui_ImplOpenGL3_Init("#version 330");
+  
   // Use VSync
   if(SDL_GL_SetSwapInterval(1) < 0)
   {

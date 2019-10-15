@@ -22,11 +22,13 @@ class Object
     void SetScale(float scale);
     void SetParent(glm::mat4 model);
     void SetMoon(bool is_moon);
+    void SetRing(bool is_ring);
     void SetRadius(float rad);
     void SetTilt(float t);
     
     std::string GetName();
     bool GetMoon();
+    bool GetRing();
     glm::mat4 GetTran();
     glm::mat4 GetModel();    
 
@@ -72,6 +74,7 @@ class Object
     float angle;
     float angle1;
     bool moon;
+    bool ring;
     int _spin;
     int _rot;
     float spin_speed;

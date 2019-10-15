@@ -44,6 +44,12 @@ int main(int argc, char **argv)
     return 1;
   }
   engine->Run();
+
+  //delete menu
+  ImGui_ImplOpenGL3_Shutdown();
+  ImGui_ImplSDL2_Shutdown();
+  ImGui::DestroyContext();
+
   delete engine;
   engine = NULL;
   return 0;

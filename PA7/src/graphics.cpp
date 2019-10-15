@@ -57,12 +57,15 @@ bool Graphics::Initialize(int width, int height, std::string vsFile, std::string
     return false;
   }
 
-  // Create the objects
+  // Create the planets
   for(int i = 0; i < numPlanets; i++)
   {
     planets[i] = new Object(objFile, texFiles[i]);
   }
   ConfigPlanets("../config/config.txt");
+  
+  rings = new Object("../assets/ring.obj", "../assets/rings.jpg");
+  ConfigRings();
 
   // Set up the shaders
   m_shader = new Shader();
@@ -134,6 +137,8 @@ void Graphics::Update(unsigned int dt, int index)
       
     planets[i]->Update(dt);
   }
+  rings->SetParent(planets[8]->GetTran());
+  rings->Update(dt);
   
   ChangeCamera(index);
 }
@@ -152,9 +157,6 @@ void Graphics::ChangeCamera(int i)
       
     else if(i == 2 || i == 3 || i == 4 || i == 6 || i == 11)
       m_camera->Update(glm::vec3(t.x, (t.y + 0.2), (t.z - 0.5)), glm::vec3(t.x, t.y, t.z));
-    
-//    else if(i == 6 || i == 11)
-//      m_camera->Update(glm::vec3(t.x, (t.y + 0.15), (t.z - 0.2)), glm::vec3(t.x, t.y, t.z));
       
     else
       m_camera->Update(glm::vec3(t.x, (t.y + 1.0), (t.z - 4.0)), glm::vec3(t.x, t.y, t.z));
@@ -181,6 +183,9 @@ void Graphics::Render()
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(planets[i]->GetModel()));
     planets[i]->Render();
   }
+  
+  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(rings->GetModel()));
+  rings->Render();
 
   // Get any errors from OpenGL
   auto error = glGetError();
@@ -237,6 +242,20 @@ void Graphics::ConfigPlanets(std::string file)
   }
   
   ifile.close();
+}
+
+void Graphics::ConfigRings()
+{
+  rings->SetName("rings");
+  rings->SetMoon(false);
+  rings->SetRing(true);
+  rings->SetScale(2.0f);
+  rings->SetSpin(1);
+  rings->SetSSpeed(0.05f);
+  rings->SetRot(0);
+  rings->SetRSpeed(1.0f);
+  rings->SetRadius(0.0f);
+  rings->SetTilt(26.73f);
 }
 
 std::string Graphics::ErrorString(GLenum error)

@@ -19,6 +19,7 @@ class Graphics
     void ChangeCamera(int i);
     void Render();
     void ConfigPlanets(std::string file);
+    void ConfigRings();
 
   private:
     std::string ErrorString(GLenum error);
@@ -34,6 +35,7 @@ class Graphics
     const static int numPlanets = 12;
     std::string texFiles[numPlanets];
     Object *planets[numPlanets];
+    Object *rings;
 };
 
 #endif /* GRAPHICS_H */

@@ -61,15 +61,57 @@ void Engine::Run()
     // Update the DT
     m_DT = getDT();
 
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame(m_window->gWindow);
+    ImGui::NewFrame();
+
     // Check the keyboard input
     while(SDL_PollEvent(&m_event) != 0)
     {
       Keyboard();
     }
 
+    //Menu. Adds a button and changes index for each planet
+    {
+      ImGui::Begin("Solar System");                          // Create a window called "Hello, world!" and append into it.
+
+      ImGui::Text("Select a planet to focus on");               // Display some text (you can use a format strings too)
+     
+      // Edit 3 floats representing a color
+      if (ImGui::Button("Solar System"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+        index = -1;
+      if (ImGui::Button("Sun"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+        index = 1;
+      if (ImGui::Button("Mercury"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+        index = 2;
+      if (ImGui::Button("Venus"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+        index = 3;
+      if (ImGui::Button("Earth"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+        index = 4;
+      if (ImGui::Button("Mars"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+        index = 6;
+      if (ImGui::Button("Jupiter"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+        index = 7;
+      if (ImGui::Button("Saturn"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+        index = 8;
+      if (ImGui::Button("Uranus"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+        index = 9;
+      if (ImGui::Button("Neptune"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+        index = 10;
+      if (ImGui::Button("Pluto"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+        index = 11;
+
+      ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+      ImGui::End();
+    }
+
     // Update and render the graphics
     m_graphics->Update(m_DT, index);
     m_graphics->Render();
+
+    //menu render each frame
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     // Swap to the Window
     m_window->Swap();

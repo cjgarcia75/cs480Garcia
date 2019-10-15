@@ -12,8 +12,7 @@ Object::MeshEntry::~MeshEntry()
   glDeleteBuffers(1, &IB);
 }
 
-void Object::MeshEntry::Init(const std::vector<Vertex>& Vertices,
-                          const std::vector<unsigned int>& Indices)
+void Object::MeshEntry::Init(const std::vector<Vertex>& Vertices, const std::vector<unsigned int>& Indices)
 {
   NumIndices = Indices.size();
 
@@ -30,6 +29,7 @@ Object::Object(std::string objFile, std::string texFile)
 {  
   angle = 0.0f;
   moon = false;
+  ring = false;
   
   if(!LoadObjFile(objFile, texFile))
   {
@@ -48,7 +48,11 @@ void Object::Update(unsigned int dt)
   angle = SetAngle(dt, _rot, angle, rot_speed);
   angle1 = SetAngle(dt, _spin, angle1, spin_speed);
   
-  if(moon)
+  if(ring)
+  {
+    model = glm::translate(parent, glm::vec3(0.0, 0.0, 0.0));
+  }
+  else if(moon)
   {
     model = glm::translate(parent, glm::vec3((radius * cos(angle)), 0.0, (radius * sin(angle))));
     model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0, 1.0, 0.0));
@@ -292,6 +296,11 @@ bool Object::GetMoon()
   return moon;
 }
 
+bool Object::GetRing()
+{
+  return ring;
+}
+
 std::string Object::GetName()
 {
   return name;
@@ -335,6 +344,11 @@ void Object::SetParent(glm::mat4 model)
 void Object::SetMoon(bool is_moon)
 {
   moon = is_moon;
+}
+
+void Object::SetRing(bool is_ring)
+{
+  ring = is_ring;
 }
 
 void Object::SetRadius(float rad)
