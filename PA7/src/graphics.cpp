@@ -127,17 +127,42 @@ bool Graphics::Initialize(int width, int height, std::string vsFile, std::string
   return true;
 }
 
-void Graphics::Update(unsigned int dt, int index)
+void Graphics::Update(unsigned int dt, int index, int speed)
 {
   // Update the object
   for(int i = 0; i < numPlanets; i++)
   {
     if(planets[i]->GetMoon())
-      planets[i]->SetParent(planets[i - 1]->GetTran());
+    {
+      if(planets[i]->GetName() == "moon")
+        planets[i]->SetParent(planets[earth]->GetTran());
+      
+      else if(planets[i]->GetName() == "phobos" || planets[i]->GetName() == "deimos")
+        planets[i]->SetParent(planets[mars]->GetTran());
+        
+      else if(planets[i]->GetName() == "europa" || planets[i]->GetName() == "io" || planets[i]->GetName() == "ganymede" || planets[i]->GetName() == "callisto")
+        planets[i]->SetParent(planets[jupiter]->GetTran());
+        
+      else if(planets[i]->GetName() == "mimas" || planets[i]->GetName() == "enceladus" || planets[i]->GetName() == "tethys" || planets[i]->GetName() == "dione" 
+              || planets[i]->GetName() == "rhea" || planets[i]->GetName() == "titan" || planets[i]->GetName() == "iapetus")
+        planets[i]->SetParent(planets[saturn]->GetTran());
+        
+      else if(planets[i]->GetName() == "miranda" || planets[i]->GetName() == "ariel" || planets[i]->GetName() == "umbriel"
+              || planets[i]->GetName() == "titania" || planets[i]->GetName() == "oberon")
+        planets[i]->SetParent(planets[uranus]->GetTran());
+        
+      else if(planets[i]->GetName() == "triton")
+        planets[i]->SetParent(planets[neptune]->GetTran());
+        
+      else if(planets[i]->GetName() == "charon")
+        planets[i]->SetParent(planets[pluto]->GetTran());
+    }
+    
+    ChangeSpeed(planets[i], speed);
       
     planets[i]->Update(dt);
   }
-  rings->SetParent(planets[8]->GetTran());
+  rings->SetParent(planets[saturn]->GetTran());
   rings->Update(dt);
   
   ChangeCamera(index);
@@ -145,23 +170,40 @@ void Graphics::Update(unsigned int dt, int index)
 
 void Graphics::ChangeCamera(int i)
 {
-  if(i == -1)
-    m_camera->Update(glm::vec3(0.0, 16.0, -30.0), glm::vec3(0.0, 0.0, 0.0));
+  if(i == system)
+    m_camera->Update(glm::vec3(0.0, 20.0, -40.0), glm::vec3(0.0, 0.0, 0.0));
   else
   {
     glm::mat4 temp(planets[i]->GetTran());
     glm::vec3 t(temp[3]);
     
-    if(i == 1)
+    if(i == sun)
       m_camera->Update(glm::vec3(t.x, (t.y + 1.0), (t.z - 9.0)), glm::vec3(t.x, t.y, t.z));
       
-    else if(i == 2 || i == 3 || i == 4 || i == 6 || i == 11)
+    else if(i == mercury || i == venus || i == earth || i == mars || i == pluto)
       m_camera->Update(glm::vec3(t.x, (t.y + 0.2), (t.z - 0.5)), glm::vec3(t.x, t.y, t.z));
       
-    else
+    else if(i == uranus || i == neptune)
       m_camera->Update(glm::vec3(t.x, (t.y + 1.0), (t.z - 4.0)), glm::vec3(t.x, t.y, t.z));
     
+    else
+      m_camera->Update(glm::vec3(t.x, (t.y + 1.0), (t.z - 6.0)), glm::vec3(t.x, t.y, t.z));
   }
+}
+
+void Graphics::ChangeSpeed(Object* p, int speed)
+{  
+  if(speed == 1)
+    return;
+    
+  else if(speed == 2)
+    p->SetSpeed2();
+    
+  else if(speed == 3)
+    p->SetSpeed3();
+    
+  else if(speed == 4)
+    p->SetSpeed1();
 }
 
 void Graphics::Render()
@@ -206,21 +248,21 @@ void Graphics::ConfigPlanets(std::string file)
     return;
   }
   
-  std::string temp;
+  std::string temp, trash;
   bool b;
   int i, j;
-  float f, g, h, k, t;
+  float f, g, h, k, t, o;
   
   // skip first 13 lines of config file
-  for(int z = 0; z < 13; z++)
+  for(int z = 0; z < 14; z++)
   {
     ifile.ignore(50, '\n');
   }
   
   // set values for each planet
   for(int c = 0; c < numPlanets; c++)
-  {
-    ifile >> temp >> b >> f >> i >> g >> j >> h >> k >> t;
+  {  
+    ifile >> temp >> b >> f >> i >> g >> j >> h >> k >> t >> o >> trash;
   
     planets[c]->SetName(temp);
   
@@ -239,6 +281,8 @@ void Graphics::ConfigPlanets(std::string file)
     planets[c]->SetRadius(k);
     
     planets[c]->SetTilt(t);
+    
+    planets[c]->SetOrbital(o);
   }
   
   ifile.close();
@@ -251,11 +295,12 @@ void Graphics::ConfigRings()
   rings->SetRing(true);
   rings->SetScale(2.0f);
   rings->SetSpin(1);
-  rings->SetSSpeed(0.05f);
+  rings->SetSSpeed(0.0005f);
   rings->SetRot(0);
-  rings->SetRSpeed(1.0f);
+  rings->SetRSpeed(0.0f);
   rings->SetRadius(0.0f);
   rings->SetTilt(26.73f);
+  rings->SetOrbital(0.0f);
 }
 
 std::string Graphics::ErrorString(GLenum error)

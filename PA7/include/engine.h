@@ -33,6 +33,20 @@ class Engine
     long long m_currentTimeMillis;
     bool m_running;
     int index;
+    int speed;
+    int prevSpeed;
+    
+    const static int system = -1,
+                     sun = 1,
+                     mercury = 2,
+                     venus = 3,
+                     earth = 4,
+                     mars = 6, 
+                     jupiter = 9,
+                     saturn = 14,
+                     uranus = 22, 
+                     neptune = 28, 
+                     pluto = 30;
 };
 
 #endif // ENGINE_H

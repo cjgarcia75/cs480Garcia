@@ -48,18 +48,22 @@ void Object::Update(unsigned int dt)
   angle = SetAngle(dt, _rot, angle, rot_speed);
   angle1 = SetAngle(dt, _spin, angle1, spin_speed);
   
+  float x = radius * sin(angle) * cos(glm::radians(orbital)),
+        y = radius * sin(angle) * sin(glm::radians(orbital)),
+        z = radius * cos(angle);
+  
   if(ring)
   {
     model = glm::translate(parent, glm::vec3(0.0, 0.0, 0.0));
   }
   else if(moon)
   {
-    model = glm::translate(parent, glm::vec3((radius * cos(angle)), 0.0, (radius * sin(angle))));
-    model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0, 1.0, 0.0));
+    model = glm::translate(parent, glm::vec3(x, y, z));
+    model = glm::rotate(model, glm::radians(100.0f), glm::vec3(0.0, 1.0, 0.0));
   }
   else
   {
-    model = glm::translate(glm::mat4(1.0f), glm::vec3((radius * cos(angle)), 0.0, (radius * sin(angle))));
+    model = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, z));
     
     tranModel = model;
   }
@@ -306,6 +310,16 @@ std::string Object::GetName()
   return name;
 }
 
+float Object::GetSSpeed()
+{
+  return spin_speed;
+}
+
+float Object::GetRSpeed()
+{
+  return rot_speed;
+}
+
 void Object::SetName(std::string n)
 {
   name = n;
@@ -324,11 +338,17 @@ void Object::SetRot(int rot)
 void Object::SetSSpeed(float speed)
 {
   spin_speed = speed;
+  ss1 = speed;
+  ss2 = ss1 * 100.0;
+  ss3 = ss2 * 10.0;
 }
 
 void Object::SetRSpeed(float speed)
 {
   rot_speed = speed;
+  rs1 = speed;
+  rs2 = rs1 * 100.0;
+  rs3 = rs2 * 10.0;
 }
 
 void Object::SetScale(float scale)
@@ -359,4 +379,27 @@ void Object::SetRadius(float rad)
 void Object::SetTilt(float t)
 {
   tilt = t;
+}
+
+void Object::SetOrbital(float o)
+{
+  orbital = o;
+}
+
+void Object::SetSpeed1()
+{
+  spin_speed = ss1;
+  rot_speed = rs1;
+}
+
+void Object::SetSpeed2()
+{
+  spin_speed = ss2;
+  rot_speed = rs2;
+}
+
+void Object::SetSpeed3()
+{
+  spin_speed = ss3;
+  rot_speed = rs3;
 }

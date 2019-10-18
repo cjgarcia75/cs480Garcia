@@ -2,6 +2,7 @@
 #define OBJECT_H
 
 #include <vector>
+#include <cmath>
 #include "graphics_headers.h"
 #include "stb_image.h"
 
@@ -25,10 +26,17 @@ class Object
     void SetRing(bool is_ring);
     void SetRadius(float rad);
     void SetTilt(float t);
+    void SetOrbital(float o);
+    
+    void SetSpeed1();
+    void SetSpeed2();
+    void SetSpeed3();
     
     std::string GetName();
     bool GetMoon();
     bool GetRing();
+    float GetSSpeed();
+    float GetRSpeed();
     glm::mat4 GetTran();
     glm::mat4 GetModel();    
 
@@ -82,6 +90,8 @@ class Object
     float _scale;
     float radius;
     float tilt;
+    float orbital;
+    float ss1, ss2, ss3, rs1, rs2, rs3;
     
     // model loading
     bool LoadObjFile(std::string objFile, std::string texFile);

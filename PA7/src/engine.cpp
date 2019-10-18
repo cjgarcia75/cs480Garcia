@@ -47,6 +47,8 @@ bool Engine::Initialize(std::string vsFile, std::string fsFile, std::string objF
   m_currentTimeMillis = GetCurrentTimeMillis();
   
   index = -1;
+  speed = 1;
+  prevSpeed = 1;
   
   // No errors
   return true;
@@ -79,34 +81,41 @@ void Engine::Run()
      
       // Edit 3 floats representing a color
       if (ImGui::Button("Solar System"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-        index = -1;
+        index = system;
       if (ImGui::Button("Sun"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-        index = 1;
+        index = sun;
       if (ImGui::Button("Mercury"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-        index = 2;
+        index = mercury;
       if (ImGui::Button("Venus"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-        index = 3;
+        index = venus;
       if (ImGui::Button("Earth"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-        index = 4;
+        index = earth;
       if (ImGui::Button("Mars"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-        index = 6;
+        index = mars;
       if (ImGui::Button("Jupiter"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-        index = 7;
+        index = jupiter;
       if (ImGui::Button("Saturn"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-        index = 8;
+        index = saturn;
       if (ImGui::Button("Uranus"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-        index = 9;
+        index = uranus;
       if (ImGui::Button("Neptune"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-        index = 10;
+        index = neptune;
       if (ImGui::Button("Pluto"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-        index = 11;
+        index = pluto;
+      if (ImGui::Button("1x"))
+        speed = 4;
+      if (ImGui::Button("100x"))
+        speed = 2;
+      if (ImGui::Button("1000x"))
+        speed = 3;
 
       ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
       ImGui::End();
     }
 
     // Update and render the graphics
-    m_graphics->Update(m_DT, index);
+    m_graphics->Update(m_DT, index, speed);
+    speed = 1;
     m_graphics->Render();
 
     //menu render each frame
@@ -133,27 +142,33 @@ void Engine::Keyboard()
       case SDLK_ESCAPE: m_running = false; 
                         break;
       // change camera view                 
-      case SDLK_1: index = 1;
+      case SDLK_1: index = sun;
                    break;
-      case SDLK_2: index = 2;
+      case SDLK_2: index = mercury;
                    break;
-      case SDLK_3: index = 3;
+      case SDLK_3: index = venus;
                    break;
-      case SDLK_4: index = 4;
+      case SDLK_4: index = earth;
                    break;
-      case SDLK_5: index = 6;
+      case SDLK_5: index = mars;
                    break;
-      case SDLK_6: index = 7;
+      case SDLK_6: index = jupiter;
                    break;
-      case SDLK_7: index = 8;
+      case SDLK_7: index = saturn;
                    break;
-      case SDLK_8: index = 9;
+      case SDLK_8: index = uranus;
                    break;
-      case SDLK_9: index = 10;
+      case SDLK_9: index = neptune;
                    break;
-      case SDLK_0: index = 11;
+      case SDLK_0: index = pluto;
                    break;
-      case SDLK_r: index = -1;
+      case SDLK_r: index = system;
+                   break;
+      case SDLK_q: speed = 4;
+                   break;
+      case SDLK_w: speed = 2;
+                   break;
+      case SDLK_e: speed = 3;
                    break;
     }
   }
