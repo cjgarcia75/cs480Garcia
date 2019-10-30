@@ -23,8 +23,12 @@ make
 
 ## Controls
 Move cube:
+
     w: forward
+
     s: back
+    
     a: left
+    
     d: right
 
