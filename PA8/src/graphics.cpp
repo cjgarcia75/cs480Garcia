@@ -7,10 +7,14 @@ Graphics::Graphics()
 
 Graphics::~Graphics()
 {
-
+  delete dynamicsWorld;
+  delete solver;
+  delete broadphase;
+  delete dispatcher;
+  delete collisionConfig;
 }
 
-bool Graphics::Initialize(int width, int height, std::string vsFile, std::string fsFile, std::string objFile)
+bool Graphics::Initialize(int width, int height, std::string vsFile, std::string fsFile)
 {
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
@@ -30,6 +34,12 @@ bool Graphics::Initialize(int width, int height, std::string vsFile, std::string
       return false;
     }
   #endif
+  
+  if(!BulletInit())
+  {
+    printf("Bullet Failed to Initialize\n");
+    return false;
+  }
 
   // For OpenGL 3
   GLuint vao;
@@ -43,6 +53,20 @@ bool Graphics::Initialize(int width, int height, std::string vsFile, std::string
     printf("Camera Failed to Initialize\n");
     return false;
   }
+  
+  // Set up objects
+  ball = new Object("../assets/ball.obj", "../assets/chrome.jpeg", "ball", 1.0, 10.0, btVector3(2, 1, 1));
+  board = new Object("../assets/board.obj", "../assets/wood.jpeg", "board", 0.0, 0.0, btVector3(0, 0, 0));
+  cube = new Object("../assets/cube.obj", "../assets/brick.jpeg", "cube", 5.0, 10.0, btVector3(4, 1, 2));
+  cylinder = new Object("../assets/Cylinder.obj", "../assets/granite.jpeg", "cylinder", 0.0, 0.0, btVector3(-1, 0, 1));
+  
+  ball->GetRigidBody()->setActivationState(DISABLE_DEACTIVATION);
+  cube->GetRigidBody()->setActivationState(DISABLE_DEACTIVATION);
+  
+  dynamicsWorld->addRigidBody(ball->GetRigidBody());
+  dynamicsWorld->addRigidBody(cube->GetRigidBody());
+  dynamicsWorld->addRigidBody(board->GetRigidBody());
+  dynamicsWorld->addRigidBody(cylinder->GetRigidBody());
 
   // Set up the shaders
   m_shader = new Shader();
@@ -104,9 +128,14 @@ bool Graphics::Initialize(int width, int height, std::string vsFile, std::string
   return true;
 }
 
-void Graphics::Update(unsigned int dt)
+void Graphics::Update(unsigned int dt, unsigned int input)
 {
-  rings->Update(dt);
+  dynamicsWorld->stepSimulation(dt, 1);
+  
+  ball->Update(input);
+  board->Update(input);
+  cube->Update(input);
+  cylinder->Update(input);
 }
 
 void Graphics::Render()
@@ -122,8 +151,17 @@ void Graphics::Render()
   glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
   glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
   
-  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(rings->GetModel()));
-  rings->Render();
+  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(ball->GetModel()));
+  ball->Render();
+  
+  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(board->GetModel()));
+  board->Render();
+  
+  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(cube->GetModel()));
+  cube->Render();
+  
+  glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(cylinder->GetModel()));
+  cylinder->Render();
 
   // Get any errors from OpenGL
   auto error = glGetError();
@@ -132,6 +170,18 @@ void Graphics::Render()
     string val = ErrorString( error );
     std::cout<< "Error initializing OpenGL! " << error << ", " << val << std::endl;
   }
+}
+
+bool Graphics::BulletInit()
+{
+  collisionConfig = new btDefaultCollisionConfiguration();
+  dispatcher = new btCollisionDispatcher(collisionConfig);
+  broadphase = new btDbvtBroadphase();
+  solver = new btSequentialImpulseConstraintSolver;
+  dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
+  dynamicsWorld->setGravity(btVector3(0, -10, 0));
+  
+  return true;
 }
 
 std::string Graphics::ErrorString(GLenum error)

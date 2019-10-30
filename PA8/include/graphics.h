@@ -14,9 +14,12 @@ class Graphics
   public:
     Graphics();
     ~Graphics();
-    bool Initialize(int width, int height, std::string vsFile, std::string fsFile, std::string objFile);
-    void Update(unsigned int dt);
+    bool Initialize(int width, int height, std::string vsFile, std::string fsFile);
+    void Update(unsigned int dt, unsigned int input);
     void Render();
+    
+    bool BulletInit();
+    btDiscreteDynamicsWorld* GetDynamicsWorld() const;
 
   private:
     std::string ErrorString(GLenum error);
@@ -29,7 +32,16 @@ class Graphics
     GLint m_modelMatrix;
     GLuint sampler;
 
-    Object *rings;
+    Object *ball;
+    Object *board;
+    Object *cube;
+    Object *cylinder;
+    
+    btDefaultCollisionConfiguration* collisionConfig;
+    btCollisionDispatcher* dispatcher;
+    btBroadphaseInterface* broadphase;
+    btSequentialImpulseConstraintSolver* solver;
+    btDiscreteDynamicsWorld* dynamicsWorld;
 };
 
 #endif /* GRAPHICS_H */

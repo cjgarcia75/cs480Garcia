@@ -1,20 +1,16 @@
-# PA7: Solar System
+# PA8: Bullet
 ### Christian Garcia
 
 # Project description
-This project is an interactive solar system using Assimp to load models and stb_image.h to load textures
+This project uses Bullet to move a cube and a ball around on a board.
 
 GROUP PROJECT: My teammate is Jake Lahr. Grade this project.
 
 ## Extra Credit
-We used a config file for the values of the planets.
-
-Menu.
-
-Live adjustment of simulation speed.
+Used a custom collision mesh for the board in object.cpp InitMesh().
 
 ## Building
-To build and run this program, navigate to the correct directory. Make a new 'build' directory, cmake in previous directory, then make in the build directory. Then run the program with the shader file names and object file name as command line arguments.
+To build and run this program, navigate to the correct directory. Make a new 'build' directory, cmake in previous directory, then make in the build directory.
 
 Example:
 ```
@@ -22,13 +18,13 @@ mkdir build
 cd build
 cmake ..
 make
-./Solar
+./PA8
 ```
 
 ## Controls
-R: reset camera.
-
-0-9: focus camera on the sun and planets.
-
-Q, W, E: Change speed.
+Move cube:
+    w: forward
+    s: back
+    a: left
+    d: right
 

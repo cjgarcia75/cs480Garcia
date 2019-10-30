@@ -13,7 +13,7 @@ class Engine
     Engine(string name, int width, int height);
     Engine(string name);
     ~Engine();
-    bool Initialize(std::string vsFile, std::string fsFile, std::string objFile);
+    bool Initialize(std::string vsFile, std::string fsFile);
     void Run();
     void Keyboard();
     unsigned int getDT();
@@ -29,7 +29,7 @@ class Engine
     SDL_Event m_event;
 
     Graphics *m_graphics;
-    unsigned int m_DT;
+    unsigned int m_DT, input;
     long long m_currentTimeMillis;
     bool m_running;
 };

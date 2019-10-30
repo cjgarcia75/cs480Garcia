@@ -9,17 +9,32 @@
 class Object
 {
   public:
-    Object(std::string objFile, std::string texFile);
+    Object(std::string objFile, std::string texFile, std::string n, float mass, float inertia, btVector3 pos);
     ~Object();
     void Update(unsigned int dt);
     void Render();
     
-    glm::mat4 GetModel();    
+    glm::mat4 GetModel(); 
+    
+    void SetMass(float mass);
+    void SetInertia(float inertia);
+    void SetPos(btVector3 pos); 
+    
+    btCollisionShape* GetShape();
+    btRigidBody* GetRigidBody();
+    float GetMass();
+    float GetInertia();
 
   private:
     glm::mat4 model;
     std::vector<Vertex> Vertices;
     std::vector<unsigned int> Indices;
+    
+    std::string name;
+    float _mass, _inertia;
+    btVector3 _pos;
+    btCollisionShape* shape;
+    btRigidBody* rigidBody;
     
     struct MeshEntry 
     {
@@ -55,7 +70,7 @@ class Object
     // model loading
     bool LoadObjFile(std::string objFile, std::string texFile);
     bool InitFromScene(const aiScene* pScene, const std::string& objFile, const std::string texFile);
-    void InitMesh(unsigned int Index, const aiMesh* paiMesh);
+    void InitMesh(unsigned int Index, const aiMesh* paiMesh, btTriangleMesh *objTriangleMesh);
     bool InitMaterials(const aiScene* pScene, const std::string& objFile, const std::string texFile);
     
     glm::vec3 colors();

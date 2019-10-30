@@ -25,7 +25,7 @@ Engine::~Engine()
   m_graphics = NULL;
 }
 
-bool Engine::Initialize(std::string vsFile, std::string fsFile, std::string objFile)
+bool Engine::Initialize(std::string vsFile, std::string fsFile)
 {
   // Start a window
   m_window = new Window();
@@ -37,7 +37,7 @@ bool Engine::Initialize(std::string vsFile, std::string fsFile, std::string objF
 
   // Start the graphics
   m_graphics = new Graphics();
-  if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, vsFile, fsFile, objFile))
+  if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, vsFile, fsFile))
   {
     printf("The graphics failed to initialize.\n");
     return false;
@@ -45,6 +45,8 @@ bool Engine::Initialize(std::string vsFile, std::string fsFile, std::string objF
 
   // Set the time
   m_currentTimeMillis = GetCurrentTimeMillis();
+  
+  input = 0;
   
   // No errors
   return true;
@@ -66,8 +68,10 @@ void Engine::Run()
     }
 
     // Update and render the graphics
-    m_graphics->Update(m_DT, index, speed);
+    m_graphics->Update(m_DT, input);
     m_graphics->Render();
+    
+    input = 0;
 
     // Swap to the Window
     m_window->Swap();
@@ -88,6 +92,14 @@ void Engine::Keyboard()
       // end program
       case SDLK_ESCAPE: m_running = false; 
                         break;
+      case SDLK_w: input = 1; 
+                        break;     
+      case SDLK_s: input = 2; 
+                        break;
+      case SDLK_a: input = 3; 
+                        break;
+      case SDLK_d: input = 4; 
+                        break;         
     }
   }
 }

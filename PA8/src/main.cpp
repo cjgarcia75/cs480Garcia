@@ -9,8 +9,6 @@ int main(int argc, char **argv)
     
     std::string fsFile = "../shaders/cube_shader-f.txt";
     
-    std::string objFile = "../assets/sphere.obj";
-    
     std::ifstream file;
     
     file.open(vsFile.c_str());
@@ -26,17 +24,10 @@ int main(int argc, char **argv)
         printf("No fragment file\n");
         
     file.close();
-    
-    file.open(objFile.c_str());
-    
-    if(!file)
-        printf("No obj file\n");
-        
-    file.close();
 
   // Start an engine and run it then cleanup after
   Engine *engine = new Engine("Tutorial Window Name", 1400, 1000);
-  if(!engine->Initialize(vsFile, fsFile, objFile))
+  if(!engine->Initialize(vsFile, fsFile))
   {
     printf("The engine failed to start.\n");
     delete engine;
