@@ -28,15 +28,19 @@ class Engine
     bool m_FULLSCREEN;
     SDL_Event m_event;
 
-    float spot = 10.5;
+    float spot = 0.5;
     float spec = 1.0;
-    float amb = 0.1;
+    float amb = 1.1;
+    int pull_back;
+    bool launched;
     
 
     Graphics *m_graphics;
     unsigned int m_DT, input;
     long long m_currentTimeMillis;
     bool m_running;
+    
+    int ChangePower(int p, bool d);
 };
 
 #endif // ENGINE_H

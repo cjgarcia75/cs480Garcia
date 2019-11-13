@@ -15,7 +15,7 @@ class Graphics
     Graphics();
     ~Graphics();
     bool Initialize(int width, int height, std::string vsFile, std::string fsFile);
-    void Update(unsigned int dt, unsigned int input);
+    void Update(unsigned int dt, unsigned int input, int pull_back, bool launched);
     void Render(float spot, float amb, float spec);
     void SwitchShader();
     
@@ -44,6 +44,8 @@ class Graphics
     Object *board;
     Object *cube;
     Object *cylinder;
+    Object *flipper1;
+    Object *flipper2; //do i need to create two of these?
 
     glm::mat4 tempMat;
     glm::vec3 tempVec;

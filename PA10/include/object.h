@@ -12,7 +12,7 @@ class Object
   public:
     Object(std::string objFile, std::string texFile, std::string n, float mass, float inertia, btVector3 pos);
     ~Object();
-    void Update(unsigned int dt);
+    void Update(unsigned int dt, int pull_back, bool launched);
     void Render(GLint& m_modelMatrix, Shader *shader, bool flag);
     
     glm::mat4 GetModel(); 

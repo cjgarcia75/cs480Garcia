@@ -1,7 +1,5 @@
 #include <iostream>
-
 #include "engine.h"
-
 
 int main(int argc, char **argv)
 {
@@ -26,7 +24,7 @@ int main(int argc, char **argv)
     file.close();
 
   // Start an engine and run it then cleanup after
-  Engine *engine = new Engine("Tutorial Window Name", 1400, 1000);
+  Engine *engine = new Engine("Pinball!", 1400, 1000);
   if(!engine->Initialize(vsFile, fsFile))
   {
     printf("The engine failed to start.\n");

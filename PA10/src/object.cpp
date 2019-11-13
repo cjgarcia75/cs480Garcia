@@ -1,5 +1,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "object.h"
+#include "iostream"
+using namespace std;
 
 Object::MeshEntry::MeshEntry()
 {
@@ -53,7 +55,7 @@ Object::~Object()
   Indices.clear();
 }
 
-void Object::Update(unsigned int input)
+void Object::Update(unsigned int input, int pull_back, bool launched)
 {
   btVector3 relativeForce;
   btTransform trans;
@@ -61,6 +63,30 @@ void Object::Update(unsigned int input)
   
   rigidBody->getMotionState()->getWorldTransform(trans);
   
+  if(name == "ball")
+  {
+    if(launched)
+    {
+      switch(pull_back)
+      {
+        case 0: relativeForce = btVector3(0, 0, 0);
+                break;
+        case 1: relativeForce = btVector3(0, 0, 100);
+                break;        
+        case 2: relativeForce = btVector3(0, 0, 150);
+                break; 
+        case 3: relativeForce = btVector3(0, 0, 200);
+                break; 
+        case 4: relativeForce = btVector3(0, 0, 250);
+                break;        
+      }
+      
+      btVector3 correctedForce = (trans * relativeForce) - trans.getOrigin();
+  
+      rigidBody->applyCentralImpulse(correctedForce);
+    }
+  }  
+/*  
   if(name == "cube")
   {
     if(input == 1)
@@ -73,6 +99,34 @@ void Object::Update(unsigned int input)
       relativeForce = btVector3(-50, 0, 0);
     else
       relativeForce = btVector3(0, 0, 0);
+  
+    btVector3 correctedForce = (trans * relativeForce) - trans.getOrigin();
+  
+    rigidBody->applyCentralForce(correctedForce);
+  }
+*/
+  if(name == "flipper1")
+  {
+    if(input == 1)
+    {
+      relativeForce = btVector3(0, 0, 50);
+    }
+    else if(input == 2)
+    {
+      relativeForce = btVector3(0, 0, -50);
+    }
+    else if(input == 3)
+    {
+      relativeForce = btVector3(50, 0, 0);
+    }
+    else if(input == 4)
+    {
+      relativeForce = btVector3(-50, 0, 0);
+    }
+    else
+    {
+      relativeForce = btVector3(0, 0, 0);
+    }
   
     btVector3 correctedForce = (trans * relativeForce) - trans.getOrigin();
   
@@ -199,7 +253,7 @@ void Object::InitMesh(unsigned int Index, const aiMesh* paiMesh, btTriangleMesh 
   for (unsigned int i = 0 ; i < paiMesh->mNumFaces ; i++) 
   {
     const aiFace& Face = paiMesh->mFaces[i];
-    
+
     for(int k = 0; k < Face.mNumIndices; k++)
     {
       aiVector3D position = (paiMesh->mVertices[Face.mIndices[k]]);
@@ -218,13 +272,19 @@ void Object::InitMesh(unsigned int Index, const aiMesh* paiMesh, btTriangleMesh 
   // for ball
   if(paiMesh->mNumFaces == 960)
   {
-    tempShape = new btSphereShape(btScalar(1));
+    tempShape = new btSphereShape(btScalar(0.5));
   }
   
   // for cube
   if(paiMesh->mNumFaces == 12)
   {
-    tempShape = new btBoxShape(btVector3(1, 1, 1));
+    tempShape = new btBoxShape(btVector3(0.5, 0.5, 0.5));
+  }
+
+  //for flipper
+  if(paiMesh->mNumFaces == 124)
+  {
+    tempShape = new btBoxShape (btVector3 (1, 1, 4));
   }
   
   shape = tempShape;

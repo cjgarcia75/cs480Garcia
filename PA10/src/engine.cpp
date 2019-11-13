@@ -47,6 +47,9 @@ bool Engine::Initialize(std::string vsFile, std::string fsFile)
   m_currentTimeMillis = GetCurrentTimeMillis();
   
   input = 0;
+  launched = false;
+  pull_back = 0;
+  
   
   // No errors
   return true;
@@ -68,10 +71,11 @@ void Engine::Run()
     }
 
     // Update and render the graphics
-    m_graphics->Update(m_DT, input);
+    m_graphics->Update(m_DT, input, pull_back, launched);
     m_graphics->Render(spot, amb, spec);
     
     input = 0;
+    launched = false;
 
     // Swap to the Window
     m_window->Swap();
@@ -101,26 +105,52 @@ void Engine::Keyboard()
       case SDLK_d: input = 4; 
                         break;
       case SDLK_l: m_graphics->SwitchShader();
-                        break;                                                    
+                        break;    
+      case SDLK_DOWN: pull_back = ChangePower(pull_back, true);
+                        break;
+      case SDLK_UP: pull_back = ChangePower(pull_back, false);
+                        break;    
+      case SDLK_SPACE: launched = true;
+                        break;                           
     }
     if (m_event.type == SDL_KEYDOWN)
     {
       switch(m_event.key.keysym.sym)
       {
-        case SDLK_DOWN: spot -= 1.0;
+        case SDLK_f: spot -= 1.0;
                         break;
-        case SDLK_UP: spot += 1.0;
+        case SDLK_r: spot += 1.0;
                         break;
-        case SDLK_r: amb += 0.1;
+        case SDLK_t: amb += 0.1;
                         break;
-        case SDLK_f: amb -= 0.1;
+        case SDLK_g: amb -= 0.1;
                         break;
-        case SDLK_t: spec += 0.1;
+        case SDLK_y: spec += 0.1;
                         break;
-        case SDLK_g: spec -= 0.1;
+        case SDLK_h: spec -= 0.1;
                         break;                                                                     
       }
     }
+  }
+}
+
+int Engine::ChangePower(int p, bool d)
+{
+  if(d)
+  {
+    if(pull_back == 4)
+      return 4;
+    
+    pull_back++;
+    return pull_back;
+  }
+  else
+  {
+    if(pull_back == 0)
+      return 0;
+      
+    pull_back--;
+    return pull_back;
   }
 }
 
