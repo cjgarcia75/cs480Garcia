@@ -65,6 +65,10 @@ bool Graphics::Initialize(int width, int height, std::string vsFile, std::string
   cylinder = new Object("../assets/CylinderBouncers.obj", "../assets/granite.jpeg", "cylinder", 0.0, 0.0, btVector3(-1, 0, 1));
   flipper1 = new Object("../assets/Flipper.obj", "../assets/chrome.jpeg", "flipper1", 0.0, 10.0, btVector3(-2, 0, -11));
   flipper2 = new Object("../assets/Flipper.obj", "../assets/chrome.jpeg", "flipper2", 0.0, 10.0, btVector3(4, 0, -11));
+  boarder1 = new Object("../assets/boarder1.obj", "../assets/green.jpeg", "boarder1", 0.0, 0.0, btVector3(0, 0, 0));
+  boarder2 = new Object("../assets/boarder2.obj", "../assets/green.jpeg", "boarder2", 0.0, 0.0, btVector3(0, 0, 0));
+  boarder3 = new Object("../assets/boarder3.obj", "../assets/green.jpeg", "boarder3", 0.0, 0.0, btVector3(0, 0, 0));
+  pLight1 = new Object("../assets/pLight1.obj", "../assets/black.png", "plight1", 0.0, 0.0, btVector3(0, 0, 0));
 
   ball->GetRigidBody()->setActivationState(DISABLE_DEACTIVATION);
   cube->GetRigidBody()->setActivationState(DISABLE_DEACTIVATION);
@@ -77,6 +81,10 @@ bool Graphics::Initialize(int width, int height, std::string vsFile, std::string
   dynamicsWorld->addRigidBody(cylinder->GetRigidBody());
   dynamicsWorld->addRigidBody(flipper1->GetRigidBody());
   dynamicsWorld->addRigidBody(flipper2->GetRigidBody());
+  //dynamicsWorld->addRigidBody(boarder1->GetRigidBody());
+  //dynamicsWorld->addRigidBody(boarder2->GetRigidBody());
+  //dynamicsWorld->addRigidBody(boarder3->GetRigidBody());
+  //dynamicsWorld->addRigidBody(pLight1->GetRigidBody());
 
   // Set up the shaders
   m_shader = new Shader();
@@ -195,12 +203,26 @@ void Graphics::Update(unsigned int dt, unsigned int input, int pull_back, bool l
 {
   dynamicsWorld->stepSimulation(dt, 1);
   
+  if(pull_back < 1)
+  {
+    ChangeColor(pLight1, "../assets/pLight1.obj", "../assets/black.png", "plight1");
+    
+    if(pull_back >= 1)
+    {
+      ChangeColor(pLight1, "../assets/pLight1.obj", "../assets/green.jpeg", "plight1");
+    }
+  }
+  
   ball->Update(input, pull_back, launched);
   board->Update(input, pull_back, launched);
   cube->Update(input, pull_back, launched);
   cylinder->Update(input, pull_back, launched);
   flipper1->Update(input, pull_back, launched);
   flipper2->Update(input, pull_back, launched);
+  boarder1->Update(input, pull_back, launched);
+  boarder2->Update(input, pull_back, launched);
+  boarder3->Update(input, pull_back, launched);
+  pLight1->Update(input, pull_back, launched);
 }
 
 void Graphics::Render(float spot, float amb, float spec)
@@ -247,21 +269,42 @@ void Graphics::Render(float spot, float amb, float spec)
     flag = false;
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(cube->GetModel()));
     cube->Render(m_modelMatrix, m_shader, flag);
-
+    
+    //ball
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(ball->GetModel()));
     ball->Render(m_modelMatrix, m_shader, flag);
     
+    // board
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(board->GetModel()));
     board->Render(m_modelMatrix, m_shader, flag);
     
+    // cylinder
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(cylinder->GetModel()));
     cylinder->Render(m_modelMatrix, m_shader, flag);
-
+    
+    // flipper1
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(flipper1->GetModel()));
     flipper1->Render(m_modelMatrix, m_shader, flag);
-
+    
+    // flipper2
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(flipper2->GetModel()));
     flipper2->Render(m_modelMatrix, m_shader, flag);
+    
+    // boarder1
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(boarder1->GetModel()));
+    boarder1->Render(m_modelMatrix, m_shader, flag);
+    
+    // boarder2
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(boarder2->GetModel()));
+    boarder2->Render(m_modelMatrix, m_shader, flag);
+    
+    // boarder3
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(boarder3->GetModel()));
+    boarder3->Render(m_modelMatrix, m_shader, flag);
+    
+    // pLight1
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(pLight1->GetModel()));
+    pLight1->Render(m_modelMatrix, m_shader, flag);
 
     // Get any errors from OpenGL
     auto error = glGetError();
@@ -305,24 +348,45 @@ void Graphics::Render(float spot, float amb, float spec)
     //cube->Render(otherModelMatrix, otherShader, flag);
     //normal cube
     flag = false;
-    glUniformMatrix4fv(otherModelMatrix, 1, GL_FALSE, glm::value_ptr(cube->GetModel()));
-    cube->Render(otherModelMatrix, otherShader, flag);
-
-    glUniformMatrix4fv(otherModelMatrix, 1, GL_FALSE, glm::value_ptr(ball->GetModel()));
-    ball->Render(m_modelMatrix, otherShader, flag);
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(cube->GetModel()));
+    cube->Render(m_modelMatrix, m_shader, flag);
     
-    glUniformMatrix4fv(otherModelMatrix, 1, GL_FALSE, glm::value_ptr(board->GetModel()));
-    board->Render(otherModelMatrix, otherShader, flag);
+    //ball
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(ball->GetModel()));
+    ball->Render(m_modelMatrix, m_shader, flag);
     
-    glUniformMatrix4fv(otherModelMatrix, 1, GL_FALSE, glm::value_ptr(cylinder->GetModel()));
-    cylinder->Render(otherModelMatrix, otherShader, flag);
-
+    // board
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(board->GetModel()));
+    board->Render(m_modelMatrix, m_shader, flag);
+    
+    // cylinder
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(cylinder->GetModel()));
+    cylinder->Render(m_modelMatrix, m_shader, flag);
+    
+    // flipper1
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(flipper1->GetModel()));
     flipper1->Render(m_modelMatrix, m_shader, flag);
-
+    
+    // flipper2
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(flipper2->GetModel()));
     flipper2->Render(m_modelMatrix, m_shader, flag);
-
+    
+    // boarder1
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(boarder1->GetModel()));
+    boarder1->Render(m_modelMatrix, m_shader, flag);
+    
+    // boarder2
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(boarder2->GetModel()));
+    boarder2->Render(m_modelMatrix, m_shader, flag);
+    
+    // boarder3
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(boarder3->GetModel()));
+    boarder3->Render(m_modelMatrix, m_shader, flag);
+    
+    // pLight1
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(pLight1->GetModel()));
+    pLight1->Render(m_modelMatrix, m_shader, flag);
+    
     // Get any errors from OpenGL
     auto error = glGetError();
     if ( error != GL_NO_ERROR )
@@ -331,6 +395,12 @@ void Graphics::Render(float spot, float amb, float spec)
       std::cout<< "Error initializing OpenGL! " << error << ", " << val << std::endl;
     }
   }
+}
+
+void Graphics::ChangeColor(Object* o, std::string f, std::string t, std::string n)
+{
+  delete o;
+  o = new Object(f, t, n, 0.0, 0.0, btVector3(0, 0, 0));
 }
 
 bool Graphics::BulletInit()

@@ -18,6 +18,7 @@ class Graphics
     void Update(unsigned int dt, unsigned int input, int pull_back, bool launched);
     void Render(float spot, float amb, float spec);
     void SwitchShader();
+    void ChangeColor(Object* o, std::string f, std::string t, std::string n);
     
     bool BulletInit();
     bool switchShader;
@@ -46,6 +47,10 @@ class Graphics
     Object *cylinder;
     Object *flipper1;
     Object *flipper2; //do i need to create two of these?
+    Object *boarder1; // to light up the board
+    Object *boarder2;
+    Object *boarder3;
+    Object *pLight1;
 
     glm::mat4 tempMat;
     glm::vec3 tempVec;
