@@ -29,9 +29,9 @@ class Engine
     bool m_FULLSCREEN;
     SDL_Event m_event;
 
-    float spot = 0.5;
+    float spot = 10.5;
     float spec = 1.0;
-    float amb = 1.1;
+    float amb = 0.1;
     int pull_back;
     bool launched;
     bool done;
