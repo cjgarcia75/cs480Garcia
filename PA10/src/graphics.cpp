@@ -59,32 +59,36 @@ bool Graphics::Initialize(int width, int height, std::string vsFile, std::string
   }
   
   // Set up objects ("modelFilePath", "textureFilePath", "nameOfPhysicsObject", mass, inertia, pos)
+  resetBox = new Object("../assets/resetBox.obj", "../assets/white.png", "resetBox", 0.0, 0.0, btVector3(0, 0, 0));
   ball = new Object("../assets/ball.obj", "../assets/chrome.jpeg", "ball", 5.0, 10.0, btVector3(-7, 0, -11.6));
   board = new Object("../assets/boardP1.obj", "../assets/space.jpg", "board", 0.0, 0.0, btVector3(0, 0, 0));
-  cube = new Object("../assets/cube.obj", "../assets/brick.jpeg", "cube", 5.0, 10.0, btVector3(0, 0, -10));
-  cylinder = new Object("../assets/CylinderBouncers.obj", "../assets/granite.jpeg", "cylinder", 0.0, 0.0, btVector3(-1, 0, 1));
-  flipper1 = new Object("../assets/Flipper.obj", "../assets/chrome.jpeg", "flipper1", 0.0, 10.0, btVector3(-2, 0, -11));
-  flipper2 = new Object("../assets/Flipper.obj", "../assets/chrome.jpeg", "flipper2", 0.0, 10.0, btVector3(4, 0, -11));
+  
+  sBumper1 = new Object("../assets/sBumper1.obj", "../assets/venus.jpg", "sBumper1", 0.0, 0.0, btVector3(0, 0, 0));
+  sBumper2 = new Object("../assets/sBumper2.obj", "../assets/mars.jpg", "sBumper2", 0.0, 0.0, btVector3(0, 0, 0));
+  sBumper3 = new Object("../assets/sBumper3.obj", "../assets/earth.jpg", "sBumper3", 0.0, 0.0, btVector3(0, 0, 0));
+  
+  flipper1 = new Object("../assets/Flipper.obj", "../assets/chrome.jpeg", "flipper1", 0.0, 10.0, btVector3(-2, -2, -12.9));
+  flipper2 = new Object("../assets/Flipper.obj", "../assets/chrome.jpeg", "flipper2", 0.0, 10.0, btVector3(5, -2, -12.9));
+  
   boarder1 = new Object("../assets/boarder1.obj", "../assets/green.jpeg", "boarder1", 0.0, 0.0, btVector3(0, 0, 0));
   boarder2 = new Object("../assets/boarder2.obj", "../assets/green.jpeg", "boarder2", 0.0, 0.0, btVector3(0, 0, 0));
   boarder3 = new Object("../assets/boarder3.obj", "../assets/green.jpeg", "boarder3", 0.0, 0.0, btVector3(0, 0, 0));
-  pLight1 = new Object("../assets/pLight1.obj", "../assets/black.png", "plight1", 0.0, 0.0, btVector3(0, 0, 0));
+  boarder4 = new Object("../assets/boarder4.obj", "../assets/green.jpeg", "boarder4", 0.0, 0.0, btVector3(0, 0, 0));
+  boarder5 = new Object("../assets/boarder5.obj", "../assets/purple.png", "boarder5", 0.0, 0.0, btVector3(0, 0, 0));
+  boarder6 = new Object("../assets/boarder6.obj", "../assets/purple.png", "boarder6", 0.0, 0.0, btVector3(0, 0, 0));
 
   ball->GetRigidBody()->setActivationState(DISABLE_DEACTIVATION);
-  cube->GetRigidBody()->setActivationState(DISABLE_DEACTIVATION);
   flipper1->GetRigidBody()->setActivationState(DISABLE_DEACTIVATION);
   flipper2->GetRigidBody()->setActivationState(DISABLE_DEACTIVATION);
   
+  dynamicsWorld->addRigidBody(resetBox->GetRigidBody());
   dynamicsWorld->addRigidBody(ball->GetRigidBody());
-  dynamicsWorld->addRigidBody(cube->GetRigidBody());
   dynamicsWorld->addRigidBody(board->GetRigidBody());
-  dynamicsWorld->addRigidBody(cylinder->GetRigidBody());
+  dynamicsWorld->addRigidBody(sBumper1->GetRigidBody());
+  dynamicsWorld->addRigidBody(sBumper2->GetRigidBody());
+  dynamicsWorld->addRigidBody(sBumper3->GetRigidBody());
   dynamicsWorld->addRigidBody(flipper1->GetRigidBody());
   dynamicsWorld->addRigidBody(flipper2->GetRigidBody());
-  //dynamicsWorld->addRigidBody(boarder1->GetRigidBody());
-  //dynamicsWorld->addRigidBody(boarder2->GetRigidBody());
-  //dynamicsWorld->addRigidBody(boarder3->GetRigidBody());
-  //dynamicsWorld->addRigidBody(pLight1->GetRigidBody());
 
   // Set up the shaders
   m_shader = new Shader();
@@ -203,26 +207,43 @@ void Graphics::Update(unsigned int dt, unsigned int input, int pull_back, bool l
 {
   dynamicsWorld->stepSimulation(dt, 1);
   
-  if(pull_back < 1)
+/*  
+  if(!launched)
   {
-    ChangeColor(pLight1, "../assets/pLight1.obj", "../assets/black.png", "plight1");
-    
-    if(pull_back >= 1)
+    if(pull_back < 1)
     {
-      ChangeColor(pLight1, "../assets/pLight1.obj", "../assets/green.jpeg", "plight1");
+      pLight1->ChangeColor(m_shader, 'w');
+    
+      if(pull_back >= 1)
+      {
+        pLight1->ChangeColor(m_shader, 'g');
+      }
     }
   }
-  
-  ball->Update(input, pull_back, launched);
-  board->Update(input, pull_back, launched);
-  cube->Update(input, pull_back, launched);
-  cylinder->Update(input, pull_back, launched);
-  flipper1->Update(input, pull_back, launched);
-  flipper2->Update(input, pull_back, launched);
-  boarder1->Update(input, pull_back, launched);
-  boarder2->Update(input, pull_back, launched);
-  boarder3->Update(input, pull_back, launched);
-  pLight1->Update(input, pull_back, launched);
+  else
+  {
+    pLight1->ChangeColor(m_shader, 'w');
+  }
+*/
+    resetBox->Update(input, pull_back, launched);
+    ball->Update(input, pull_back, launched);
+    board->Update(input, pull_back, launched);
+    
+    sBumper1->Update(input, pull_back, launched);
+    sBumper2->Update(input, pull_back, launched);
+    sBumper3->Update(input, pull_back, launched);
+    
+    flipper1->Update(input, pull_back, launched);
+    flipper2->Update(input, pull_back, launched);
+    
+    boarder1->Update(input, pull_back, launched);
+    boarder2->Update(input, pull_back, launched);
+    boarder3->Update(input, pull_back, launched);
+    boarder4->Update(input, pull_back, launched);
+    boarder5->Update(input, pull_back, launched);
+    boarder6->Update(input, pull_back, launched);
+    
+    //pLight1->Update(input, pull_back, launched);
 }
 
 void Graphics::Render(float spot, float amb, float spec)
@@ -262,15 +283,13 @@ void Graphics::Render(float spot, float amb, float spec)
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
     glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
-    //light cube! I dont think this does anything...
-    //glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(cube->GetModel()));
-    //cube->Render(m_modelMatrix, m_shader, flag);
-    //normal cube
     flag = false;
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(cube->GetModel()));
-    cube->Render(m_modelMatrix, m_shader, flag);
     
-    //ball
+    // reset box
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(resetBox->GetModel()));
+    resetBox->Render(m_modelMatrix, m_shader, flag);
+    
+    // ball
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(ball->GetModel()));
     ball->Render(m_modelMatrix, m_shader, flag);
     
@@ -278,9 +297,17 @@ void Graphics::Render(float spot, float amb, float spec)
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(board->GetModel()));
     board->Render(m_modelMatrix, m_shader, flag);
     
-    // cylinder
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(cylinder->GetModel()));
-    cylinder->Render(m_modelMatrix, m_shader, flag);
+    // sBumper1
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(sBumper1->GetModel()));
+    sBumper1->Render(m_modelMatrix, m_shader, flag);
+    
+    // sBumper2
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(sBumper2->GetModel()));
+    sBumper2->Render(m_modelMatrix, m_shader, flag);
+    
+    // sBumper3
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(sBumper3->GetModel()));
+    sBumper3->Render(m_modelMatrix, m_shader, flag);
     
     // flipper1
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(flipper1->GetModel()));
@@ -302,9 +329,21 @@ void Graphics::Render(float spot, float amb, float spec)
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(boarder3->GetModel()));
     boarder3->Render(m_modelMatrix, m_shader, flag);
     
+    // boarder4
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(boarder4->GetModel()));
+    boarder4->Render(m_modelMatrix, m_shader, flag);
+    
+    // boarder5
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(boarder5->GetModel()));
+    boarder5->Render(m_modelMatrix, m_shader, flag);
+    
+    // boarder6
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(boarder6->GetModel()));
+    boarder6->Render(m_modelMatrix, m_shader, flag);
+    
     // pLight1
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(pLight1->GetModel()));
-    pLight1->Render(m_modelMatrix, m_shader, flag);
+//    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(pLight1->GetModel()));
+//    pLight1->Render(m_modelMatrix, m_shader, flag);
 
     // Get any errors from OpenGL
     auto error = glGetError();
@@ -343,49 +382,67 @@ void Graphics::Render(float spot, float amb, float spec)
     glUniformMatrix4fv(otherProjectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
     glUniformMatrix4fv(otherViewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
-    //light cube!
-    //glUniformMatrix4fv(otherModelMatrix, 1, GL_FALSE, glm::value_ptr(cube->GetModel()));
-    //cube->Render(otherModelMatrix, otherShader, flag);
-    //normal cube
     flag = false;
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(cube->GetModel()));
-    cube->Render(m_modelMatrix, m_shader, flag);
+    
+    // reset box
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(resetBox->GetModel()));
+    resetBox->Render(m_modelMatrix, otherShader, flag);
     
     //ball
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(ball->GetModel()));
-    ball->Render(m_modelMatrix, m_shader, flag);
+    ball->Render(m_modelMatrix, otherShader, flag);
     
     // board
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(board->GetModel()));
-    board->Render(m_modelMatrix, m_shader, flag);
+    board->Render(m_modelMatrix, otherShader, flag);
     
-    // cylinder
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(cylinder->GetModel()));
-    cylinder->Render(m_modelMatrix, m_shader, flag);
+    // sBumper1
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(sBumper1->GetModel()));
+    sBumper1->Render(m_modelMatrix, otherShader, flag);
+    
+    // sBumper2
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(sBumper2->GetModel()));
+    sBumper2->Render(m_modelMatrix, otherShader, flag);
+    
+    // sBumper3
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(sBumper3->GetModel()));
+    sBumper3->Render(m_modelMatrix, otherShader, flag);
     
     // flipper1
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(flipper1->GetModel()));
-    flipper1->Render(m_modelMatrix, m_shader, flag);
+    flipper1->Render(m_modelMatrix, otherShader, flag);
     
     // flipper2
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(flipper2->GetModel()));
-    flipper2->Render(m_modelMatrix, m_shader, flag);
+    flipper2->Render(m_modelMatrix, otherShader, flag);
     
     // boarder1
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(boarder1->GetModel()));
-    boarder1->Render(m_modelMatrix, m_shader, flag);
+    boarder1->Render(m_modelMatrix, otherShader, flag);
     
     // boarder2
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(boarder2->GetModel()));
-    boarder2->Render(m_modelMatrix, m_shader, flag);
+    boarder2->Render(m_modelMatrix, otherShader, flag);
     
     // boarder3
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(boarder3->GetModel()));
-    boarder3->Render(m_modelMatrix, m_shader, flag);
+    boarder3->Render(m_modelMatrix, otherShader, flag);
+    
+    // boarder4
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(boarder4->GetModel()));
+    boarder4->Render(m_modelMatrix, otherShader, flag);
+    
+    // boarder5
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(boarder5->GetModel()));
+    boarder5->Render(m_modelMatrix, otherShader, flag);
+    
+    // boarder6
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(boarder6->GetModel()));
+    boarder6->Render(m_modelMatrix, otherShader, flag);
     
     // pLight1
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(pLight1->GetModel()));
-    pLight1->Render(m_modelMatrix, m_shader, flag);
+//    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(pLight1->GetModel()));
+//    pLight1->Render(m_modelMatrix, otherShader, flag);
     
     // Get any errors from OpenGL
     auto error = glGetError();
@@ -396,13 +453,27 @@ void Graphics::Render(float spot, float amb, float spec)
     }
   }
 }
-
-void Graphics::ChangeColor(Object* o, std::string f, std::string t, std::string n)
+/*
+void Graphics::CheckLights(Object* obj, int num, int pull_back, bool launched)
 {
-  delete o;
-  o = new Object(f, t, n, 0.0, 0.0, btVector3(0, 0, 0));
+  if(!launched)
+  {
+    if(pull_back < 1)
+    {
+      pLight1 = new Object("../assets/pLight1.obj", "../assets/white.png", "pLight1", 0.0, 0.0, btVector3(0, 0, 0));
+    
+      if(pull_back >= 1)
+      {
+        pLight1->ChangeColor(m_shader, 'g');
+      }
+    }
+  }
+  else
+  {
+    pLight1->ChangeColor(m_shader, 'w');
+  }
 }
-
+*/
 bool Graphics::BulletInit()
 {
   collisionConfig = new btDefaultCollisionConfiguration();
@@ -410,7 +481,7 @@ bool Graphics::BulletInit()
   broadphase = new btDbvtBroadphase();
   solver = new btSequentialImpulseConstraintSolver;
   dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
-  dynamicsWorld->setGravity(btVector3(0, -10, 0));
+  dynamicsWorld->setGravity(btVector3(0, -15, 0));
   
   return true;
 }

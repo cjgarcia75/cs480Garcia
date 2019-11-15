@@ -18,7 +18,7 @@ class Graphics
     void Update(unsigned int dt, unsigned int input, int pull_back, bool launched);
     void Render(float spot, float amb, float spec);
     void SwitchShader();
-    void ChangeColor(Object* o, std::string f, std::string t, std::string n);
+    //void CheckLights(Object* obj, int num, int pull_back, bool launched);
     
     bool BulletInit();
     bool switchShader;
@@ -41,15 +41,20 @@ class Graphics
     GLint otherModelMatrix;
     GLuint sampler;
 
+    Object *resetBox;
     Object *ball;
     Object *board;
-    Object *cube;
-    Object *cylinder;
+    Object *sBumper1;
+    Object *sBumper2;
+    Object *sBumper3;
     Object *flipper1;
     Object *flipper2; //do i need to create two of these?
     Object *boarder1; // to light up the board
     Object *boarder2;
     Object *boarder3;
+    Object *boarder4;
+    Object *boarder5;
+    Object *boarder6;
     Object *pLight1;
 
     glm::mat4 tempMat;

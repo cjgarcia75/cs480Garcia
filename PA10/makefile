@@ -26,7 +26,7 @@ INDLUDES=-I../include
 
 
 all: $(O_FILES)
-	$(CC) $(CXXFLAGS) -o PA9 $(O_FILES) $(LIBS) #$(PATHI) $(PATHL)
+	$(CC) $(CXXFLAGS) -o pinball $(O_FILES) $(LIBS) #$(PATHI) $(PATHL)
 
 main.o: ../src/main.cpp
 	$(CC) $(CXXFLAGS) -c ../src/main.cpp -o main.o $(INDLUDES)
@@ -50,4 +50,4 @@ window.o: ../src/window.cpp
 	$(CC) $(CXXFLAGS) -c ../src/window.cpp -o window.o $(INDLUDES)
 
 clean:
-	-@if rm *.o PA9 2>/dev/null || true; then echo "Main Removed"; else echo "No Main"; fi
+	-@if rm *.o pinball 2>/dev/null || true; then echo "Main Removed"; else echo "No Main"; fi

@@ -36,6 +36,10 @@ class Object
     btVector3 _pos;
     btCollisionShape* shape;
     btRigidBody* rigidBody;
+    float upAngle = 0.0;
+    float upAngle2 = 0.0;
+    float angleDiff = 0.2;
+    btQuaternion down, up, down2, up2;
     
     struct MeshEntry 
     {

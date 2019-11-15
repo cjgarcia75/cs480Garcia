@@ -1,10 +1,10 @@
-# PA9: Lighting
-### Jake Lahr
+# PA10: Pinball
+### Christian Garcia
 
 # Project description
-This project is demonstrating light
+This project is a pinball game.
 
-GROUP PROJECT: My teammate is Christian Garcia. Grade this project.
+GROUP PROJECT: My teammate is Jake Lahr. Grade this project.
 
 
 ## Building
@@ -16,7 +16,7 @@ mkdir build
 cd build
 cmake ..
 make
-./PA9
+./pinball
 ```
 
 ## Controls

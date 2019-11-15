@@ -1,5 +1,6 @@
 #version 330
 struct Material {
+    sampler2D ambient;
     sampler2D diffuse;
     sampler2D specular;    
     float shininess;
@@ -50,7 +51,7 @@ void main()
     if(theta > light.cutOff) // remember that we're working with angles as cosines instead of degrees so a '>' is used.
     {    
         // ambient
-        vec3 ambient = light.ambient * texture(material.diffuse, TexCoords).rgb;
+        vec3 ambient = light.ambient * texture(material.ambient, TexCoords).rgb;
         
         // diffuse 
         vec3 norm = normalize(Normal);
@@ -78,6 +79,6 @@ void main()
     else 
     {
         // else, use ambient light so scene isn't completely dark outside the spotlight.
-        FragColor = vec4(light.ambient * texture(material.diffuse, TexCoords).rgb, 1.0);
+        FragColor = vec4(light.ambient * texture(material.ambient, TexCoords).rgb, 1.0);
     }
 } 

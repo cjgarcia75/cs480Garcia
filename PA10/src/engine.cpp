@@ -74,7 +74,7 @@ void Engine::Run()
     m_graphics->Update(m_DT, input, pull_back, launched);
     m_graphics->Render(spot, amb, spec);
     
-    input = 0;
+    //input = 0;
     launched = false;
 
     // Swap to the Window
@@ -96,9 +96,9 @@ void Engine::Keyboard()
       // end program
       case SDLK_ESCAPE: m_running = false; 
                         break;
-      case SDLK_w: input = 1; 
+      case SDLK_RIGHT: input = 1; 
                         break;     
-      case SDLK_s: input = 2; 
+      case SDLK_LEFT: input = 3; 
                         break;
       case SDLK_a: input = 3; 
                         break;
@@ -130,6 +130,16 @@ void Engine::Keyboard()
         case SDLK_h: spec -= 0.1;
                         break;                                                                     
       }
+    }
+  }
+  else if(m_event.type == SDL_KEYUP)
+  {
+    switch(m_event.key.keysym.sym)
+    {
+      case SDLK_RIGHT: input = 0;
+                       break;
+      case SDLK_LEFT: input = 2;
+                      break;
     }
   }
 }

@@ -59,6 +59,10 @@ void Object::Update(unsigned int input, int pull_back, bool launched)
 {
   btVector3 relativeForce;
   btTransform trans;
+  down.setEuler(2, 0, 0);
+  up.setEuler(upAngle, 0, 0);
+  down2.setEuler(-2, 0, 0);
+  up2.setEuler(upAngle2, 0, 0);
   btScalar m[16];
   
   rigidBody->getMotionState()->getWorldTransform(trans);
@@ -109,27 +113,50 @@ void Object::Update(unsigned int input, int pull_back, bool launched)
   {
     if(input == 1)
     {
-      relativeForce = btVector3(0, 0, 50);
-    }
-    else if(input == 2)
-    {
-      relativeForce = btVector3(0, 0, -50);
-    }
-    else if(input == 3)
-    {
-      relativeForce = btVector3(50, 0, 0);
-    }
-    else if(input == 4)
-    {
-      relativeForce = btVector3(-50, 0, 0);
+      relativeForce = btVector3(0, 0, 300);
+      if(upAngle >= 0)
+      {
+        upAngle -= angleDiff;
+      }
+      trans.setRotation(up);
+      rigidBody->setCenterOfMassTransform(trans);
     }
     else
     {
-      relativeForce = btVector3(0, 0, 0);
+      if(upAngle < 2)
+      {
+        upAngle += angleDiff;
+      }
+      trans.setRotation(up);
+      rigidBody->setCenterOfMassTransform(trans);
     }
   
     btVector3 correctedForce = (trans * relativeForce) - trans.getOrigin();
   
+    rigidBody->applyCentralForce(correctedForce);
+  }
+  if(name == "flipper2")
+  {
+    if(input == 3)
+    {
+      relativeForce = btVector3(0, 0, 100);
+      if (upAngle2 < 0)
+      {
+        upAngle2 += angleDiff;
+      }
+      trans.setRotation(up2);
+      rigidBody->setCenterOfMassTransform(trans);
+    }
+    else
+    {
+      if (upAngle2 >= -2)
+        upAngle2 -= angleDiff;
+      trans.setRotation(up2);
+      rigidBody->setCenterOfMassTransform(trans);
+    }
+    
+    btVector3 correctedForce = (trans * relativeForce) - trans.getOrigin();
+    
     rigidBody->applyCentralForce(correctedForce);
   }
   
@@ -275,16 +302,16 @@ void Object::InitMesh(unsigned int Index, const aiMesh* paiMesh, btTriangleMesh 
     tempShape = new btSphereShape(btScalar(0.5));
   }
   
-  // for cube
+/*  // for cube
   if(paiMesh->mNumFaces == 12)
   {
     tempShape = new btBoxShape(btVector3(0.5, 0.5, 0.5));
   }
-
+*/
   //for flipper
   if(paiMesh->mNumFaces == 124)
   {
-    tempShape = new btBoxShape (btVector3 (1, 1, 4));
+    tempShape = new btBoxShape (btVector3 (0.5, 2, 2.9));
   }
   
   shape = tempShape;
