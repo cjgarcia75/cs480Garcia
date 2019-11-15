@@ -15,9 +15,10 @@ class Graphics
     Graphics();
     ~Graphics();
     bool Initialize(int width, int height, std::string vsFile, std::string fsFile);
-    void Update(unsigned int dt, unsigned int input, int pull_back, bool launched);
+    void Update(unsigned int dt, unsigned int input, int& pull_back, bool launched, bool& done, int& ballCount, int camInput);
     void Render(float spot, float amb, float spec);
     void SwitchShader();
+    void ChangeCamera(int i);
     //void CheckLights(Object* obj, int num, int pull_back, bool launched);
     
     bool BulletInit();
@@ -32,6 +33,7 @@ class Graphics
     Shader *otherShader;
 
     bool flag = true;
+    float cam1, cam2, cam3;
 
     GLint m_projectionMatrix;
     GLint m_viewMatrix;
@@ -41,7 +43,6 @@ class Graphics
     GLint otherModelMatrix;
     GLuint sampler;
 
-    Object *resetBox;
     Object *ball;
     Object *board;
     Object *sBumper1;
@@ -55,7 +56,6 @@ class Graphics
     Object *boarder4;
     Object *boarder5;
     Object *boarder6;
-    Object *pLight1;
 
     glm::mat4 tempMat;
     glm::vec3 tempVec;

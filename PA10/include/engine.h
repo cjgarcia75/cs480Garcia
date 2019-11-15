@@ -16,6 +16,7 @@ class Engine
     bool Initialize(std::string vsFile, std::string fsFile);
     void Run();
     void Keyboard();
+    void Reset();
     unsigned int getDT();
     long long GetCurrentTimeMillis();
   
@@ -33,6 +34,10 @@ class Engine
     float amb = 1.1;
     int pull_back;
     bool launched;
+    bool done;
+    int ballCount;
+    int score;
+    int camInput;
     
 
     Graphics *m_graphics;

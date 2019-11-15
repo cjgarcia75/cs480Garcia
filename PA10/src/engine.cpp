@@ -47,8 +47,12 @@ bool Engine::Initialize(std::string vsFile, std::string fsFile)
   m_currentTimeMillis = GetCurrentTimeMillis();
   
   input = 0;
+  camInput = 0;
   launched = false;
+  done = true;
   pull_back = 0;
+  ballCount = 3;
+  score = 0;
   
   
   // No errors
@@ -63,6 +67,26 @@ void Engine::Run()
   {
     // Update the DT
     m_DT = getDT();
+    
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame(m_window->gWindow);
+    ImGui::NewFrame();
+    
+    //Menu. 
+    {
+      ImGui::Begin("Pinball");
+      
+      if(ballCount == 0)
+        ImGui::Text("GAME OVER");
+        
+      ImGui::Text("Score: %d", score);
+      
+      ImGui::Text("Ball Count: %d", ballCount);
+
+      ImGui::Text("Pull back power: %d", pull_back);
+
+      ImGui::End();
+    }
 
     // Check the keyboard input
     while(SDL_PollEvent(&m_event) != 0)
@@ -71,11 +95,16 @@ void Engine::Run()
     }
 
     // Update and render the graphics
-    m_graphics->Update(m_DT, input, pull_back, launched);
+    m_graphics->Update(m_DT, input, pull_back, launched, done, ballCount, camInput);
     m_graphics->Render(spot, amb, spec);
     
     //input = 0;
+    camInput = 0;
     launched = false;
+    
+    //menu render each frame
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     // Swap to the Window
     m_window->Swap();
@@ -100,9 +129,16 @@ void Engine::Keyboard()
                         break;     
       case SDLK_LEFT: input = 3; 
                         break;
-      case SDLK_a: input = 3; 
+      case SDLK_w: camInput = 1;
                         break;
-      case SDLK_d: input = 4; 
+      case SDLK_s: camInput = 2;
+                        break;
+      case SDLK_a: camInput = 3;
+                        break;
+      case SDLK_d: camInput = 4;
+                        break;
+      case SDLK_n: if(ballCount == 0)
+                     Reset();
                         break;
       case SDLK_l: m_graphics->SwitchShader();
                         break;    
@@ -110,7 +146,12 @@ void Engine::Keyboard()
                         break;
       case SDLK_UP: pull_back = ChangePower(pull_back, false);
                         break;    
-      case SDLK_SPACE: launched = true;
+      case SDLK_SPACE: if(done)
+                       {
+                         launched = true;
+                         done = false;
+                         score += 50;
+                       }
                         break;                           
     }
     if (m_event.type == SDL_KEYDOWN)
@@ -162,6 +203,16 @@ int Engine::ChangePower(int p, bool d)
     pull_back--;
     return pull_back;
   }
+}
+
+void Engine::Reset()
+{
+  input = 0;
+  launched = false;
+  done = true;
+  pull_back = 0;
+  ballCount = 4;
+  score = 0;
 }
 
 unsigned int Engine::getDT()

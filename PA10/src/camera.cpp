@@ -27,9 +27,9 @@ bool Camera::Initialize(int w, int h)
   return true;
 }
 
-void Camera::Update(glm::vec3 eye, glm::vec3 focus)
+void Camera::Update(glm::vec3 eye)
 {
-  view = glm::lookAt(eye, focus, glm::vec3(0.0, 1.0, 0.0));
+  view = glm::lookAt(eye, glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 }
 
 glm::mat4 Camera::GetProjection()

@@ -3,6 +3,9 @@
 Graphics::Graphics()
 {
   switchShader = false;
+  cam1 = 0.0f;
+  cam2 = 20.0f;
+  cam3 = -25.0;
 }
 
 Graphics::~Graphics()
@@ -59,13 +62,12 @@ bool Graphics::Initialize(int width, int height, std::string vsFile, std::string
   }
   
   // Set up objects ("modelFilePath", "textureFilePath", "nameOfPhysicsObject", mass, inertia, pos)
-  resetBox = new Object("../assets/resetBox.obj", "../assets/white.png", "resetBox", 0.0, 0.0, btVector3(0, 0, 0));
   ball = new Object("../assets/ball.obj", "../assets/chrome.jpeg", "ball", 5.0, 10.0, btVector3(-7, 0, -11.6));
   board = new Object("../assets/boardP1.obj", "../assets/space.jpg", "board", 0.0, 0.0, btVector3(0, 0, 0));
   
-  sBumper1 = new Object("../assets/sBumper1.obj", "../assets/venus.jpg", "sBumper1", 0.0, 0.0, btVector3(0, 0, 0));
-  sBumper2 = new Object("../assets/sBumper2.obj", "../assets/mars.jpg", "sBumper2", 0.0, 0.0, btVector3(0, 0, 0));
-  sBumper3 = new Object("../assets/sBumper3.obj", "../assets/earth.jpg", "sBumper3", 0.0, 0.0, btVector3(0, 0, 0));
+  sBumper1 = new Object("../assets/sBumper1.obj", "../assets/charon.jpg", "sBumper1", 0.0, 0.0, btVector3(0, 0, 0));
+  sBumper2 = new Object("../assets/sBumper2.obj", "../assets/charon.jpg", "sBumper2", 0.0, 0.0, btVector3(0, 0, 0));
+  sBumper3 = new Object("../assets/sBumper3.obj", "../assets/charon.jpg", "sBumper3", 0.0, 0.0, btVector3(0, 0, 0));
   
   flipper1 = new Object("../assets/Flipper.obj", "../assets/chrome.jpeg", "flipper1", 0.0, 10.0, btVector3(-2, -2, -12.9));
   flipper2 = new Object("../assets/Flipper.obj", "../assets/chrome.jpeg", "flipper2", 0.0, 10.0, btVector3(5, -2, -12.9));
@@ -81,7 +83,6 @@ bool Graphics::Initialize(int width, int height, std::string vsFile, std::string
   flipper1->GetRigidBody()->setActivationState(DISABLE_DEACTIVATION);
   flipper2->GetRigidBody()->setActivationState(DISABLE_DEACTIVATION);
   
-  dynamicsWorld->addRigidBody(resetBox->GetRigidBody());
   dynamicsWorld->addRigidBody(ball->GetRigidBody());
   dynamicsWorld->addRigidBody(board->GetRigidBody());
   dynamicsWorld->addRigidBody(sBumper1->GetRigidBody());
@@ -203,47 +204,47 @@ bool Graphics::Initialize(int width, int height, std::string vsFile, std::string
   return true;
 }
 
-void Graphics::Update(unsigned int dt, unsigned int input, int pull_back, bool launched)
+void Graphics::Update(unsigned int dt, unsigned int input, int& pull_back, bool launched, bool& done, int& ballCount, int camInput)
 {
   dynamicsWorld->stepSimulation(dt, 1);
   
-/*  
-  if(!launched)
-  {
-    if(pull_back < 1)
-    {
-      pLight1->ChangeColor(m_shader, 'w');
+  ball->Update(input, pull_back, launched);
+  board->Update(input, pull_back, launched);
     
-      if(pull_back >= 1)
-      {
-        pLight1->ChangeColor(m_shader, 'g');
-      }
+  sBumper1->Update(input, pull_back, launched);
+  sBumper2->Update(input, pull_back, launched);
+  sBumper3->Update(input, pull_back, launched);
+   
+  flipper1->Update(input, pull_back, launched);
+  flipper2->Update(input, pull_back, launched);
+    
+  boarder1->Update(input, pull_back, launched);
+  boarder2->Update(input, pull_back, launched);
+  boarder3->Update(input, pull_back, launched);
+  boarder4->Update(input, pull_back, launched);
+  boarder5->Update(input, pull_back, launched);
+  boarder6->Update(input, pull_back, launched);
+  
+  tempMat = ball->GetModel();
+  tempVec = glm::vec3(tempMat[3]);
+  if(tempVec.z <= -15.1 && ballCount > 0)
+  {
+    if(ballCount == 1)
+      ballCount--;
+      
+    else
+    {
+      delete ball;
+      ball = new Object("../assets/ball.obj", "../assets/chrome.jpeg", "ball", 5.0, 10.0, btVector3(-7, 0, -11.6));
+      ball->GetRigidBody()->setActivationState(DISABLE_DEACTIVATION);
+      dynamicsWorld->addRigidBody(ball->GetRigidBody());
+      pull_back = 0;
+      done = true;
+      ballCount--;
     }
   }
-  else
-  {
-    pLight1->ChangeColor(m_shader, 'w');
-  }
-*/
-    resetBox->Update(input, pull_back, launched);
-    ball->Update(input, pull_back, launched);
-    board->Update(input, pull_back, launched);
-    
-    sBumper1->Update(input, pull_back, launched);
-    sBumper2->Update(input, pull_back, launched);
-    sBumper3->Update(input, pull_back, launched);
-    
-    flipper1->Update(input, pull_back, launched);
-    flipper2->Update(input, pull_back, launched);
-    
-    boarder1->Update(input, pull_back, launched);
-    boarder2->Update(input, pull_back, launched);
-    boarder3->Update(input, pull_back, launched);
-    boarder4->Update(input, pull_back, launched);
-    boarder5->Update(input, pull_back, launched);
-    boarder6->Update(input, pull_back, launched);
-    
-    //pLight1->Update(input, pull_back, launched);
+  
+  ChangeCamera(camInput);
 }
 
 void Graphics::Render(float spot, float amb, float spec)
@@ -284,10 +285,6 @@ void Graphics::Render(float spot, float amb, float spec)
     glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
     flag = false;
-    
-    // reset box
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(resetBox->GetModel()));
-    resetBox->Render(m_modelMatrix, m_shader, flag);
     
     // ball
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(ball->GetModel()));
@@ -340,10 +337,6 @@ void Graphics::Render(float spot, float amb, float spec)
     // boarder6
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(boarder6->GetModel()));
     boarder6->Render(m_modelMatrix, m_shader, flag);
-    
-    // pLight1
-//    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(pLight1->GetModel()));
-//    pLight1->Render(m_modelMatrix, m_shader, flag);
 
     // Get any errors from OpenGL
     auto error = glGetError();
@@ -383,10 +376,6 @@ void Graphics::Render(float spot, float amb, float spec)
     glUniformMatrix4fv(otherViewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
     flag = false;
-    
-    // reset box
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(resetBox->GetModel()));
-    resetBox->Render(m_modelMatrix, otherShader, flag);
     
     //ball
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(ball->GetModel()));
@@ -440,10 +429,6 @@ void Graphics::Render(float spot, float amb, float spec)
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(boarder6->GetModel()));
     boarder6->Render(m_modelMatrix, otherShader, flag);
     
-    // pLight1
-//    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(pLight1->GetModel()));
-//    pLight1->Render(m_modelMatrix, otherShader, flag);
-    
     // Get any errors from OpenGL
     auto error = glGetError();
     if ( error != GL_NO_ERROR )
@@ -453,27 +438,21 @@ void Graphics::Render(float spot, float amb, float spec)
     }
   }
 }
-/*
-void Graphics::CheckLights(Object* obj, int num, int pull_back, bool launched)
+
+void Graphics::ChangeCamera(int i)
 {
-  if(!launched)
-  {
-    if(pull_back < 1)
-    {
-      pLight1 = new Object("../assets/pLight1.obj", "../assets/white.png", "pLight1", 0.0, 0.0, btVector3(0, 0, 0));
+  if(i == 1)
+    cam3 += 0.2;
+  else if(i == 2)
+    cam3 -= 0.2;
+  else if(i == 3)
+    cam1 += 0.2;
+  else if(i == 4)
+    cam1 -= 0.2;
     
-      if(pull_back >= 1)
-      {
-        pLight1->ChangeColor(m_shader, 'g');
-      }
-    }
-  }
-  else
-  {
-    pLight1->ChangeColor(m_shader, 'w');
-  }
+  m_camera->Update(glm::vec3(cam1, cam2, cam3));
 }
-*/
+
 bool Graphics::BulletInit()
 {
   collisionConfig = new btDefaultCollisionConfiguration();
@@ -481,7 +460,7 @@ bool Graphics::BulletInit()
   broadphase = new btDbvtBroadphase();
   solver = new btSequentialImpulseConstraintSolver;
   dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
-  dynamicsWorld->setGravity(btVector3(0, -15, 0));
+  dynamicsWorld->setGravity(btVector3(0, -20, 0));
   
   return true;
 }

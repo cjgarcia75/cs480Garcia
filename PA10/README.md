@@ -6,6 +6,14 @@ This project is a pinball game.
 
 GROUP PROJECT: My teammate is Jake Lahr. Grade this project.
 
+## Extra Credit
+Plunger intensity
+
+Spotlight that follows the ball with adjustable radius and intensity.
+
+Game replay.
+
+Score, ball count, and plunger intensity shown in menu
 
 ## Building
 To build and run this program, navigate to the correct directory. Make a new 'build' directory, cmake in previous directory, then make in the build directory.
@@ -20,26 +28,36 @@ make
 ```
 
 ## Controls
-Move cube:
+Right: right flipper
 
-    w: forward
+Left: left flipper
 
-    s: back
-    
-    a: left
-    
-    d: right
+down: increase plunger intensity
 
-    Up arrow: increased spotlight size
+up: decrease plunger intensity
 
-    Down arrow: decrease spotlight size
+space: launch ball
 
-    r: increase ambient light
+n: reset game (only after 3 balls)
 
-    f: decrease ambient light
+w: move camera forward
 
-    t: increase specular
+s: move camera back
 
-    g: decrease specular
+a: move camera left
 
-    l: changes shader
+d: move camera right
+
+r: increase spotlight size
+
+f: decrease spotlight size
+
+t: increase ambient light
+
+g: decrease ambient light
+
+y: increase specular
+
+h: decrease specular
+
+l: changes shader
