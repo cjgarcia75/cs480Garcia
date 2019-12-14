@@ -59,23 +59,25 @@ bool Graphics::Initialize(int width, int height, std::string vsFile, std::string
   }
   
   // Set up objects
-  ball = new Object("../assets/ball.obj", "../assets/chrome.jpeg", "ball", 1.0, 5.0, btVector3(0, 0, 0));
-  ramp = new Object("../assets/Obsticle1.obj", "../assets/wood.jpeg", "ramp", 0.0, 0.0, btVector3(0, 0, 0));
-  slide1 = new Object("../assets/slide1.obj", "../assets/wood.jpeg", "slide1", 0.0, 0.0, btVector3(0, 0, 0));
-  slide2 = new Object("../assets/slide2.obj", "../assets/wood.jpeg", "slide2", 0.0, 0.0, btVector3(0, 0, 0));
-  tube = new Object("../assets/cylindertube.obj", "../assets/wood.jpeg", "tube", 0.0, 0.0, btVector3(0, 0, 0));
-  funnel = new Object("../assets/Funnel.obj", "../assets/wood.jpeg", "funnel", 0.0, 0.0, btVector3(0, 0, 0));
-  board = new Object("../assets/board.obj", "../assets/wood.jpeg", "board", 0.0, 0.0, btVector3(0, 0, 0));
+  ball = new Object("../assets/ball.obj", "../assets/brick.jpeg", "ball", 1.0, 1.0, btVector3(14, 5.3, 0));
+  obsticle1 = new Object("../assets/Obsticle1Fix.obj", "../assets/wood.jpeg", "obsticle1", 0.0, 0.0, btVector3(-17, -42, 14));
+  ramp2 = new Object("../assets/Ramp2Fix.obj", "../assets/wood.jpeg", "slide1", 0.0, 0.0, btVector3(-33, -68, -34.5));
+  //rotator = new Object("../assets/rotatorFix.obj", "../assets/wood.jpeg", "rotator", 0.0, 0.0, btVector3(0, 0, 0));
+  slide1 = new Object("../assets/slide1Fix.obj", "../assets/wood.jpeg", "slide1", 0.0, 0.0, btVector3(-6.5, -75, -26));
+  funnel = new Object("../assets/Funnelfix.obj", "../assets/brick.jpeg", "funnel", 0.0, 0.0, btVector3(0, 0, 0));
+  tunnel = new Object("../assets/TunnelFix.obj", "../assets/wood.jpeg", "tunnel", 0.0, 0.0, btVector3(0, -12, 0));
+  tunnelJump = new Object("../assets/TunnelJumpFix.obj", "../assets/wood.jpeg", "tunnelJump", 0.0, 0.0, btVector3(-50, -49, 10));
   
   ball->GetRigidBody()->setActivationState(DISABLE_DEACTIVATION);
   
   dynamicsWorld->addRigidBody(ball->GetRigidBody());
-  dynamicsWorld->addRigidBody(ramp->GetRigidBody());
+  dynamicsWorld->addRigidBody(obsticle1->GetRigidBody());
+  dynamicsWorld->addRigidBody(ramp2->GetRigidBody());
+  //dynamicsWorld->addRigidBody(rotator->GetRigidBody());
   dynamicsWorld->addRigidBody(slide1->GetRigidBody());
-  dynamicsWorld->addRigidBody(slide2->GetRigidBody());
-  dynamicsWorld->addRigidBody(tube->GetRigidBody());
   dynamicsWorld->addRigidBody(funnel->GetRigidBody());
-  dynamicsWorld->addRigidBody(board->GetRigidBody());
+  dynamicsWorld->addRigidBody(tunnel->GetRigidBody());
+  dynamicsWorld->addRigidBody(tunnelJump->GetRigidBody());
 
   // Set up the shaders
   m_shader = new Shader();
@@ -195,19 +197,21 @@ void Graphics::Update(unsigned int dt, unsigned int input)
   dynamicsWorld->stepSimulation(dt, 1);
   
   ball->Update(input);
-  ramp->Update(input);
+  obsticle1->Update(input);
+  ramp2->Update(input);
+  //rotator->Update(input);
   slide1->Update(input);
-  slide2->Update(input);
-  tube->Update(input);
   funnel->Update(input);
-  board->Update(input);
+  tunnel->Update(input);
+  tunnelJump->Update(input);
 }
 
-void Graphics::Render()
+void Graphics::Render(bool w, bool a, bool s, bool d, unsigned int dt, double xPos, double yPos)
 {
   //clear the screen
   glClearColor(0.0, 0.0, 0.2, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  
 
   tempMat = ball->GetModel();
   tempVec = glm::vec3(tempMat[3]);  
@@ -215,29 +219,32 @@ void Graphics::Render()
   {  
     // Start the correct program
     m_shader->Enable();
-  
-    GLint temp = m_shader->GetUniformLocation("light.position");
-    glUniform3f(temp, tempVec.x, 10, tempVec.z); // these zeros need to be the position of the ball tempVec.x, tempVec.y, tempVec.z
-    temp = m_shader->GetUniformLocation("light.direction");
-    glUniform3f(temp, 0.0, -1.0, 0.0);
-    temp = m_shader->GetUniformLocation("light.cutOff");
-    glUniform1f(temp, glm::cos(glm::radians(0.5f)));
-    temp = m_shader->GetUniformLocation("viewPos");
-    glUniform3f(temp, 0, 0, 0);
-    temp = m_shader->GetUniformLocation("light.ambient");
-    glUniform3f(temp, 1.1f, 1.1f, 1.1f);
-    temp = m_shader->GetUniformLocation("light.diffuse");
+    
+    //Lighting
+    GLint temp;
+    temp = m_shader->GetUniformLocation("numOfLights");
+    glUniform1i(temp, 1);
+    temp = m_shader->GetUniformLocation("lightColor");
+    glUniform3f(temp, 1.0, 1.0, 0.0);
+    temp = m_shader->GetUniformLocation("pointLights[0].position");
+    glUniform3f(temp, tempVec.x, tempVec.y, tempVec.z); // these zeros need to be the position of the ball tempVec.x, tempVec.y, tempVec.z
+    temp = m_shader->GetUniformLocation("pointLights[0].ambient");
+    glUniform3f(temp, 0.05f, 0.05f, 0.05f);
+    temp = m_shader->GetUniformLocation("pointLights[0].diffuse");
     glUniform3f(temp, 0.8f, 0.8f, 0.8f);
-    temp = m_shader->GetUniformLocation("light.specular");
+    temp = m_shader->GetUniformLocation("pointLights[0].specular");
     glUniform3f(temp, 1.0f, 1.0f, 1.0f);
-    temp = m_shader->GetUniformLocation("light.constant");
+    temp = m_shader->GetUniformLocation("pointLights[0].constant");
     glUniform1f(temp, 1.0f);
-    temp = m_shader->GetUniformLocation("light.linear");
+    temp = m_shader->GetUniformLocation("pointLights[0].linear");
     glUniform1f(temp, 0.09f);
-    temp = m_shader->GetUniformLocation("light.quadratic");
+    temp = m_shader->GetUniformLocation("pointLights[0].quadratic");
     glUniform1f(temp, 0.032f);
 
     // Send in the projection and view to the shader
+    //m_camera->mouseInput(xPos, yPos);
+    m_camera->Update(w, a, s, d, dt, tempVec);
+    //m_camera->mouseInput(xPos, yPos);
     glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
     glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
@@ -247,29 +254,33 @@ void Graphics::Render()
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(ball->GetModel()));
     ball->Render(m_modelMatrix, m_shader, flag);
     
-    // ramp
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(ramp->GetModel()));
-    ramp->Render(m_modelMatrix, m_shader, flag);
+    // obsticle1
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(obsticle1->GetModel()));
+    obsticle1->Render(m_modelMatrix, m_shader, flag);
+    
+    // ramp2
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(ramp2->GetModel()));
+    ramp2->Render(m_modelMatrix, m_shader, flag);
+    
+    // rotator
+    //glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(rotator->GetModel()));
+    //rotator->Render(m_modelMatrix, m_shader, flag);
     
     // slide1
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(slide1->GetModel()));
     slide1->Render(m_modelMatrix, m_shader, flag);
     
-    // slide2
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(slide2->GetModel()));
-    slide2->Render(m_modelMatrix, m_shader, flag);
-    
-    // tube
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(tube->GetModel()));
-    tube->Render(m_modelMatrix, m_shader, flag);
-    
     // funnel
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(funnel->GetModel()));
     funnel->Render(m_modelMatrix, m_shader, flag);
     
-    // board
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(board->GetModel()));
-    board->Render(m_modelMatrix, m_shader, flag);
+    //tunnel
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(tunnel->GetModel()));
+    tunnel->Render(m_modelMatrix, m_shader, flag);
+
+    //tunnelJump
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(tunnelJump->GetModel()));
+    tunnelJump->Render(m_modelMatrix, m_shader, flag);
 
     // Get any errors from OpenGL
     auto error = glGetError();
@@ -284,60 +295,63 @@ void Graphics::Render()
     // Start the correct program
     otherShader->Enable();
     
-    GLint temp = otherShader->GetUniformLocation("light.position");
-    glUniform3f(temp, tempVec.x, 10, tempVec.z); // these zeros need to be the position of the ball tempVec.x, tempVec.y, tempVec.z
-    temp = otherShader->GetUniformLocation("light.direction");
-    glUniform3f(temp, 0.0, -1.0, 0.0);
-    temp = otherShader->GetUniformLocation("light.cutOff");
-    glUniform1f(temp, glm::cos(glm::radians(10.5f)));
-    temp = otherShader->GetUniformLocation("viewPos");
-    glUniform3f(temp, 0, 0, 0);
-    temp = otherShader->GetUniformLocation("light.ambient");
-    glUniform3f(temp, 0.1f, 0.1f, 0.1f);
-    temp = otherShader->GetUniformLocation("light.diffuse");
+    GLint temp;
+    temp = m_shader->GetUniformLocation("numOfLights");
+    glUniform1i(temp, 1);
+    temp = m_shader->GetUniformLocation("lightColor");
+    glUniform3f(temp, 1.0, 1.0, 0.5);
+    temp = m_shader->GetUniformLocation("light[0].position");
+    glUniform3f(temp, tempVec.x, tempVec.y, tempVec.z); // these zeros need to be the position of the ball tempVec.x, tempVec.y, tempVec.z
+    temp = m_shader->GetUniformLocation("light[0].ambient");
+    glUniform3f(temp, 1.1f, 1.1f, 1.1f);
+    temp = m_shader->GetUniformLocation("light[0].diffuse");
     glUniform3f(temp, 0.8f, 0.8f, 0.8f);
-    temp = otherShader->GetUniformLocation("light.specular");
+    temp = m_shader->GetUniformLocation("light[0].specular");
     glUniform3f(temp, 1.0f, 1.0f, 1.0f);
-    temp = otherShader->GetUniformLocation("light.constant");
+    temp = m_shader->GetUniformLocation("light[0].constant");
     glUniform1f(temp, 1.0f);
-    temp = otherShader->GetUniformLocation("light.linear");
+    temp = m_shader->GetUniformLocation("light[0].linear");
     glUniform1f(temp, 0.09f);
-    temp = otherShader->GetUniformLocation("light.quadratic");
+    temp = m_shader->GetUniformLocation("light[0].quadratic");
     glUniform1f(temp, 0.032f);
 
     // Send in the projection and view to the shader
     glUniformMatrix4fv(otherProjectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
     glUniformMatrix4fv(otherViewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
-   flag = false;
+    flag = false;
 
     // ball
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(ball->GetModel()));
     ball->Render(m_modelMatrix, m_shader, flag);
     
-    // ramp
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(ramp->GetModel()));
-    ramp->Render(m_modelMatrix, m_shader, flag);
+    // obsticle1
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(obsticle1->GetModel()));
+    obsticle1->Render(m_modelMatrix, m_shader, flag);
+    
+    // ramp2
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(ramp2->GetModel()));
+    ramp2->Render(m_modelMatrix, m_shader, flag);
+    
+    // rotator
+    //glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(rotator->GetModel()));
+    //rotator->Render(m_modelMatrix, m_shader, flag);
     
     // slide1
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(slide1->GetModel()));
     slide1->Render(m_modelMatrix, m_shader, flag);
     
-    // slide2
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(slide2->GetModel()));
-    slide2->Render(m_modelMatrix, m_shader, flag);
-    
-    // tube
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(tube->GetModel()));
-    tube->Render(m_modelMatrix, m_shader, flag);
-    
     // funnel
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(funnel->GetModel()));
     funnel->Render(m_modelMatrix, m_shader, flag);
     
-    // board
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(board->GetModel()));
-    board->Render(m_modelMatrix, m_shader, flag);
+    // tunnel
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(tunnel->GetModel()));
+    tunnel->Render(m_modelMatrix, m_shader, flag);
+
+    //tunnelJump
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(tunnelJump->GetModel()));
+    tunnelJump->Render(m_modelMatrix, m_shader, flag);
 
     // Get any errors from OpenGL
     auto error = glGetError();
@@ -356,7 +370,7 @@ bool Graphics::BulletInit()
   broadphase = new btDbvtBroadphase();
   solver = new btSequentialImpulseConstraintSolver;
   dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfig);
-  dynamicsWorld->setGravity(btVector3(0, -10, 0));
+  dynamicsWorld->setGravity(btVector3(0, -6, 0));
   
   return true;
 }

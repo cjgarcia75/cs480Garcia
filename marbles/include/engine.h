@@ -16,6 +16,7 @@ class Engine
     bool Initialize(std::string vsFile, std::string fsFile);
     void Run();
     void Keyboard();
+    void mouse();
     unsigned int getDT();
     long long GetCurrentTimeMillis();
   
@@ -29,7 +30,15 @@ class Engine
     SDL_Event m_event;
 
     Graphics *m_graphics;
+    Camera *m_camera;
+    //keyboard inputs
     unsigned int m_DT, input;
+    bool w, a, s, d;
+    //mouse inputs
+    float xPos, yPos;
+    bool firstMouse = true;
+    float yaw = -90.0f;
+    float pitch = 0.0f;
     long long m_currentTimeMillis;
     bool m_running;
 };

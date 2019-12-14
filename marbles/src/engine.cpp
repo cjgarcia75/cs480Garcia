@@ -1,4 +1,3 @@
-
 #include "engine.h"
 
 Engine::Engine(string name, int width, int height)
@@ -7,6 +6,7 @@ Engine::Engine(string name, int width, int height)
   m_WINDOW_WIDTH = width;
   m_WINDOW_HEIGHT = height;
   m_FULLSCREEN = false;
+  input = 0;
 }
 
 Engine::Engine(string name)
@@ -65,13 +65,13 @@ void Engine::Run()
     while(SDL_PollEvent(&m_event) != 0)
     {
       Keyboard();
+      //mouse();
     }
 
     // Update and render the graphics
     m_graphics->Update(m_DT, input);
-    m_graphics->Render();
+    m_graphics->Render(w, a, s, d, m_DT, m_event.motion.x, m_event.motion.y);
     
-    input = 0;
 
     // Swap to the Window
     m_window->Swap();
@@ -80,11 +80,33 @@ void Engine::Run()
 
 void Engine::Keyboard()
 {
+
   if(m_event.type == SDL_QUIT)
   {
     m_running = false;
   }
   else if (m_event.type == SDL_KEYDOWN)
+  {
+    //std::cout << "Keyboard" << std::endl;
+    // handle key down events here
+    switch(m_event.key.keysym.sym)
+    {
+      // end program
+      case SDLK_ESCAPE: m_running = false; 
+                        break;
+      case SDLK_w: w = true; 
+                        break;     
+      case SDLK_s: s = true; 
+                        break;
+      case SDLK_a: a = true; 
+                        break;
+      case SDLK_d: d = true; 
+                        break;
+      case SDLK_l: m_graphics->SwitchShader();
+                        break;
+    }
+  }
+  else if (m_event.type == SDL_KEYUP)
   {
     // handle key down events here
     switch(m_event.key.keysym.sym)
@@ -92,18 +114,24 @@ void Engine::Keyboard()
       // end program
       case SDLK_ESCAPE: m_running = false; 
                         break;
-      case SDLK_w: input = 1; 
+      case SDLK_w: w = false; 
                         break;     
-      case SDLK_s: input = 2; 
+      case SDLK_s: s = false; 
                         break;
-      case SDLK_a: input = 3; 
+      case SDLK_a: a = false; 
                         break;
-      case SDLK_d: input = 4; 
+      case SDLK_d: d = false; 
                         break;
       case SDLK_l: m_graphics->SwitchShader();
                         break;
     }
   }
+}
+
+void Engine::mouse()
+{
+  //if (m_event.type == SDL_MOUSEMOTION)
+    //std::cout << "mouse" << std::endl;
 }
 
 unsigned int Engine::getDT()

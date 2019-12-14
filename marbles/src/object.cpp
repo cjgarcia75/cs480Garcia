@@ -40,10 +40,10 @@ Object::Object(std::string objFile, std::string texFile, std::string n, float ma
   shape->calculateLocalInertia(mass2, inertia2);
   
   btRigidBody::btRigidBodyConstructionInfo shapeRigidBodyCI(mass2, shapeMotionState, shape, inertia2);
-  if(inertia == 0)
+  /*if(inertia == 0)
   {
     shapeRigidBodyCI.m_restitution = 1000;
-  }
+  }*/
   rigidBody = new btRigidBody(shapeRigidBodyCI);
 }
 
@@ -61,7 +61,7 @@ void Object::Update(unsigned int input)
   
   rigidBody->getMotionState()->getWorldTransform(trans);
   
-  if(name == "cube")
+  /*if(name == "cube")
   {
     if(input == 1)
       relativeForce = btVector3(0, 0, 50);
@@ -77,7 +77,7 @@ void Object::Update(unsigned int input)
     btVector3 correctedForce = (trans * relativeForce) - trans.getOrigin();
   
     rigidBody->applyCentralForce(correctedForce);
-  }
+  }*/
   
   trans.getOpenGLMatrix(m);
   model = glm::make_mat4(m);
@@ -220,14 +220,14 @@ void Object::InitMesh(unsigned int Index, const aiMesh* paiMesh, btTriangleMesh 
   // for ball
   if(paiMesh->mNumFaces == 960)
   {
-    tempShape = new btSphereShape(btScalar(0.2));
+    tempShape = new btSphereShape(btScalar(0.31));
   }
   
   // for cube
-  if(paiMesh->mNumFaces == 12)
+  /*if(paiMesh->mNumFaces == 12)
   {
     tempShape = new btBoxShape(btVector3(1, 1, 1));
-  }
+  }*/
   
   shape = tempShape;
 

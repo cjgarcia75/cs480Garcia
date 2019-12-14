@@ -16,7 +16,7 @@ class Graphics
     ~Graphics();
     bool Initialize(int width, int height, std::string vsFile, std::string fsFile);
     void Update(unsigned int dt, unsigned int input);
-    void Render();
+    void Render(bool w, bool a, bool s, bool d, unsigned int dt, double xPos, double yPos);
     void SwitchShader();
     
     bool BulletInit();
@@ -41,12 +41,13 @@ class Graphics
     GLuint sampler;
 
     Object *ball;
-    Object *ramp;
+    Object *obsticle1;
+    Object *ramp2;
+    Object *rotator;
     Object *slide1;
-    Object *slide2;
-    Object *tube;
     Object *funnel;
-    Object *board;
+    Object *tunnel;
+    Object *tunnelJump;
 
     glm::mat4 tempMat;
     glm::vec3 tempVec;

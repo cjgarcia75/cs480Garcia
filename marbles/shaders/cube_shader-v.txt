@@ -14,7 +14,7 @@ uniform mat4 modelMatrix;
 void main()
 {
     FragPos = vec3(modelMatrix * vec4(aPos, 1.0));
-    Normal = mat3(transpose(inverse(modelMatrix))) * aNormal;  
+    Normal = mat3(transpose(inverse(modelMatrix))) * aNormal;  //costs a lot of computational power to do this in the shader
     TexCoords = aTexCoords;
     
     gl_Position = projectionMatrix *viewMatrix * vec4(FragPos, 1.0);
