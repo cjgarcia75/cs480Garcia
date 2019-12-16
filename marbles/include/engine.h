@@ -10,7 +10,7 @@
 class Engine
 {
   public:
-    Engine(string name, int width, int height);
+    Engine(string name, int width, int height, int numOfBalls);
     Engine(string name);
     ~Engine();
     bool Initialize(std::string vsFile, std::string fsFile);
@@ -19,7 +19,7 @@ class Engine
     void mouse();
     unsigned int getDT();
     long long GetCurrentTimeMillis();
-  
+
   private:
     // Window related variables
     Window *m_window;    
@@ -27,13 +27,13 @@ class Engine
     int m_WINDOW_WIDTH;
     int m_WINDOW_HEIGHT;
     bool m_FULLSCREEN;
+    int m_numOfBalls;
     SDL_Event m_event;
 
     Graphics *m_graphics;
-    Camera *m_camera;
     //keyboard inputs
-    unsigned int m_DT, input;
-    bool w, a, s, d;
+    unsigned int m_DT, input, camInput;
+    bool w, a, s, d, r, f;
     //mouse inputs
     float xPos, yPos;
     bool firstMouse = true;

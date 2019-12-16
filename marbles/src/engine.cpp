@@ -1,12 +1,14 @@
 #include "engine.h"
 
-Engine::Engine(string name, int width, int height)
+Engine::Engine(string name, int width, int height, int numOfBalls)
 {
   m_WINDOW_NAME = name;
   m_WINDOW_WIDTH = width;
   m_WINDOW_HEIGHT = height;
   m_FULLSCREEN = false;
+  m_numOfBalls = numOfBalls;
   input = 0;
+  camInput = 3;
 }
 
 Engine::Engine(string name)
@@ -37,7 +39,7 @@ bool Engine::Initialize(std::string vsFile, std::string fsFile)
 
   // Start the graphics
   m_graphics = new Graphics();
-  if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, vsFile, fsFile))
+  if(!m_graphics->Initialize(m_WINDOW_WIDTH, m_WINDOW_HEIGHT, vsFile, fsFile, m_numOfBalls))
   {
     printf("The graphics failed to initialize.\n");
     return false;
@@ -65,12 +67,11 @@ void Engine::Run()
     while(SDL_PollEvent(&m_event) != 0)
     {
       Keyboard();
-      //mouse();
     }
 
     // Update and render the graphics
     m_graphics->Update(m_DT, input);
-    m_graphics->Render(w, a, s, d, m_DT, m_event.motion.x, m_event.motion.y);
+    m_graphics->Render(w, a, s, d, r, f, m_DT, m_event.motion.x, m_event.motion.y, camInput);
     
 
     // Swap to the Window
@@ -87,7 +88,6 @@ void Engine::Keyboard()
   }
   else if (m_event.type == SDL_KEYDOWN)
   {
-    //std::cout << "Keyboard" << std::endl;
     // handle key down events here
     switch(m_event.key.keysym.sym)
     {
@@ -102,7 +102,31 @@ void Engine::Keyboard()
                         break;
       case SDLK_d: d = true; 
                         break;
+      case SDLK_UP: f = true; 
+                        break;
+      case SDLK_DOWN: r = true; 
+                        break;
       case SDLK_l: m_graphics->SwitchShader();
+                        break;
+      case SDLK_1: camInput = 3; 
+                        break;
+      case SDLK_2: camInput = 4; 
+                        break;
+      case SDLK_3: camInput = 5; 
+                        break;
+      case SDLK_4: camInput = 6; 
+                        break;
+      case SDLK_5: camInput = 7; 
+                        break;
+      case SDLK_6: camInput = 8; 
+                        break;
+      case SDLK_7: camInput = 9; 
+                        break;
+      case SDLK_8: camInput = 10; 
+                        break;
+      case SDLK_9: camInput = 11; 
+                        break;
+      case SDLK_0: camInput = 12; 
                         break;
     }
   }
@@ -122,6 +146,10 @@ void Engine::Keyboard()
                         break;
       case SDLK_d: d = false; 
                         break;
+      case SDLK_UP: f = false; 
+                        break;
+      case SDLK_DOWN: r = false; 
+                        break;
       case SDLK_l: m_graphics->SwitchShader();
                         break;
     }
@@ -130,8 +158,6 @@ void Engine::Keyboard()
 
 void Engine::mouse()
 {
-  //if (m_event.type == SDL_MOUSEMOTION)
-    //std::cout << "mouse" << std::endl;
 }
 
 unsigned int Engine::getDT()

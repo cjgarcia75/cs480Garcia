@@ -1,10 +1,11 @@
 #include <iostream>
-
+#include <cstdlib>
 #include "engine.h"
 
 
 int main(int argc, char **argv)
 {
+  //read in vertex and fragment shaders
     std::string vsFile = "../shaders/cube_shader-v.txt";
     
     std::string fsFile = "../shaders/cube_shader-f.txt";
@@ -25,8 +26,15 @@ int main(int argc, char **argv)
         
     file.close();
 
+  //read in how many balls to spawn
+  int numOfBalls;
+  for (int i = 1; i < argc; i++)
+  {
+    numOfBalls = atoi(argv[i]);
+  }
+
   // Start an engine and run it then cleanup after
-  Engine *engine = new Engine("Tutorial Window Name", 1400, 1000);
+  Engine *engine = new Engine("Tutorial Window Name", 1400, 1000, numOfBalls);
   if(!engine->Initialize(vsFile, fsFile))
   {
     printf("The engine failed to start.\n");

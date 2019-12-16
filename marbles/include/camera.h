@@ -9,7 +9,7 @@ class Camera
     Camera();
     ~Camera();
     bool Initialize(int w, int h);
-    void Update(bool w, bool a, bool s, bool d, unsigned int dt, glm::vec3 ballPos);
+    void Update(bool w, bool a, bool s, bool d, bool r, bool f, glm::vec3 ballPos);
     void mouseInput(double xPos, double yPos);
     glm::mat4 GetProjection();
     glm::mat4 GetView();

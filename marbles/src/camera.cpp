@@ -4,7 +4,8 @@ Camera::Camera()
 {
   x = radius * sin(angle);
   z = radius * cos(angle);
-  cameraPos = glm::vec3(x, 12.0, -z);
+  y = 12.0;
+  cameraPos = glm::vec3(x, y, -z);
 }
 
 Camera::~Camera()
@@ -30,47 +31,43 @@ bool Camera::Initialize(int w, int h)
 }
 
 //Moves the camera
-void Camera::Update(bool w, bool a, bool s, bool d, unsigned int dt, glm::vec3 ballPos)
+void Camera::Update(bool w, bool a, bool s, bool d, bool r, bool f, glm::vec3 ballPos)
 {
   if (w == true)
   {
-    if(fov > 30.0f)
+    if(y < 30.0f)
+      y += 0.2f;
+  }
+  if (s == true)
+  {
+    if(y > 10.0f)
+      y -= 0.2f;
+  }
+  if (f == true)
+  {
+    if(fov > 44.3f)
       fov -= 0.01f;
-    //if(fov <= 40.0f)
-      //fov = 40.0f;
   }
   if (a == true)
   {
     angle += 0.01f;
     x = radius * sin(angle);
-    //y = radius * sin(angle) * sin(angle1);
     z = radius * cos(angle);
-    cameraPos = glm::vec3(x, ballPos.y + 12.0, -z);
-    //cameraPos += cameraSpeed * cameraFront;
-    //view = glm::lookAt(glm::vec3(x, cameraPos.y, z),  ballPos + cameraFront, cameraUp);
-    //cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
   }
-  if (s == true)
+  if (r == true)
   {
     if(fov < 45.0f)
       fov += 0.01f;
-    //if(fov >= 45.0f)
-      //fov = 45.0f;
   }
   if (d == true)
   {
     angle -= 0.01f;
     x = radius * sin(angle);
-    //y = radius * sin(angle) * sin(angle1);
     z = radius * cos(angle);
-    cameraPos = glm::vec3(x, ballPos.y + 12.0, -z);
-    //cameraPos += cameraSpeed * cameraFront;
-    //view = glm::lookAt(glm::vec3(x, cameraPos.y, z),  ballPos + cameraFront, cameraUp);
-    //cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
   }
+  cameraPos = glm::vec3(ballPos.x + x, ballPos.y + y, ballPos.z - z);
   view = glm::lookAt(cameraPos, ballPos, cameraUp);
   projection = glm::perspective(fov, width/height, 0.01f, 350.0f);
-  //view = glm::lookAt( cameraPos,  ballPos + cameraFront, cameraUp);
 }
 
 glm::mat4 Camera::GetProjection()

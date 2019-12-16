@@ -215,7 +215,7 @@ void Object::InitMesh(unsigned int Index, const aiMesh* paiMesh, btTriangleMesh 
   
   btCollisionShape *tempShape = new btBvhTriangleMeshShape(objTriangleMesh, true);
   
-  std::cout << paiMesh->mNumFaces << "\n";
+  //std::cout << paiMesh->mNumFaces << "\n";
   
   // for ball
   if(paiMesh->mNumFaces == 960)
