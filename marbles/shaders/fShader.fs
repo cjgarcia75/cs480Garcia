@@ -1,4 +1,4 @@
-#version 330 
+#version 330
 
 smooth in vec3 color;
 smooth in vec2 texture;

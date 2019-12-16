@@ -27,11 +27,7 @@ int main(int argc, char **argv)
     file.close();
 
   //read in how many balls to spawn
-  int numOfBalls;
-  for (int i = 1; i < argc; i++)
-  {
-    numOfBalls = atoi(argv[i]);
-  }
+  int numOfBalls = atoi(argv[1]);
 
   // Start an engine and run it then cleanup after
   Engine *engine = new Engine("Tutorial Window Name", 1400, 1000, numOfBalls);

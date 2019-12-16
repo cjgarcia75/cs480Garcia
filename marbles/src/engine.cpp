@@ -57,21 +57,48 @@ bool Engine::Initialize(std::string vsFile, std::string fsFile)
 void Engine::Run()
 {
   m_running = true;
+  std::string tempString;
 
   while(m_running)
   {
     // Update the DT
     m_DT = getDT();
+    
+    ImGui_ImplOpenGL3_NewFrame();
+    ImGui_ImplSDL2_NewFrame(m_window->gWindow);
+    ImGui::NewFrame();
 
     // Check the keyboard input
     while(SDL_PollEvent(&m_event) != 0)
     {
       Keyboard();
     }
+    
+    //Menu. 
+    {
+      ImGui::Begin("Marbles");
+
+      ImGui::Text("Select a ball to focus on");
+      
+      ImGui::Text("Current ball: %d", (camInput - 2));
+      
+      for(int i = 0; i < m_numOfBalls; i++)
+      {
+        tempString = "Ball " + to_string(i + 1);
+        if (ImGui::Button(tempString.c_str()))                           
+          camInput = i + 3;
+
+      }
+      ImGui::End();
+    }
 
     // Update and render the graphics
     m_graphics->Update(m_DT, input);
     m_graphics->Render(w, a, s, d, r, f, m_DT, m_event.motion.x, m_event.motion.y, camInput);
+    
+    //menu render each frame
+    ImGui::Render();
+    ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
     
     // Swap to the Window
     m_window->Swap();
@@ -93,7 +120,7 @@ void Engine::Keyboard()
       // end program
       case SDLK_ESCAPE: m_running = false; 
                         break;
-      case SDLK_k: m_graphics->initBalls(weight); 
+      case SDLK_k: m_graphics->initBalls(); 
                         break;                   
       case SDLK_w: w = true; 
                         break;     
@@ -109,25 +136,11 @@ void Engine::Keyboard()
                         break;
       case SDLK_l: m_graphics->SwitchShader();
                         break;
-      case SDLK_1: camInput = 3; 
+      case SDLK_RIGHT: if(camInput < (m_numOfBalls + 2))
+                         camInput++; 
                         break;
-      case SDLK_2: camInput = 4; 
-                        break;
-      case SDLK_3: camInput = 5; 
-                        break;
-      case SDLK_4: camInput = 6; 
-                        break;
-      case SDLK_5: camInput = 7; 
-                        break;
-      case SDLK_6: camInput = 8; 
-                        break;
-      case SDLK_7: camInput = 9; 
-                        break;
-      case SDLK_8: camInput = 10; 
-                        break;
-      case SDLK_9: camInput = 11; 
-                        break;
-      case SDLK_0: camInput = 12; 
+      case SDLK_LEFT: if(camInput > 3)
+                         camInput--; 
                         break;
     }
   }

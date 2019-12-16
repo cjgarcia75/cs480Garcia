@@ -23,7 +23,7 @@ class Graphics
     bool switchShader;
     btDiscreteDynamicsWorld* GetDynamicsWorld() const;
 
-    void initBalls(float wieght);
+    void initBalls();
     void SetLights(int ballNum, glm::vec3 tempVec[], float lc[3], float a[3], float d[3], float s[3], float c, float l, float q);
 
     void setWeight(float wieght);
@@ -48,7 +48,7 @@ class Graphics
     GLint otherModelMatrix;
     GLuint sampler;
 
-    Object *balls[10];
+    Object *balls[100];
     Object *bumper1;
     Object *bumper2;
     Object *bumper3;
@@ -61,9 +61,11 @@ class Graphics
     Object *tunnelJump;
     Object *twisty;
     Object *bucket;
+    
+    btVector3 *ballPositions;
 
     glm::mat4 tempMat;
-    glm::vec3 tempVec[15];
+    glm::vec3 tempVec[105];
     
     btDefaultCollisionConfiguration* collisionConfig;
     btCollisionDispatcher* dispatcher;
