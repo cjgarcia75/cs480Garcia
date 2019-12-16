@@ -1,13 +1,10 @@
-# PA8: Bullet
+# PA11: Marbles
 ### Christian Garcia
 
 # Project description
-This project uses Bullet to move a cube and a ball around on a board.
+This project as a marble game.
 
 GROUP PROJECT: My teammate is Jake Lahr. Grade this project.
-
-## Extra Credit
-Used a custom collision mesh for the board in object.cpp InitMesh().
 
 ## Building
 To build and run this program, navigate to the correct directory. Make a new 'build' directory, cmake in previous directory, then make in the build directory.
@@ -18,17 +15,20 @@ mkdir build
 cd build
 cmake ..
 make
-./PA8
+./marbles
 ```
 
 ## Controls
-Move cube:
+Move camera:
 
-    w: forward
+    w: up
 
-    s: back
+    s: down
     
     a: left
     
     d: right
-
+    
+    up: zoom in
+    
+    down: zoom out
