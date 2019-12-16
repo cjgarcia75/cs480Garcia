@@ -28,9 +28,11 @@ class Engine
     int m_WINDOW_HEIGHT;
     bool m_FULLSCREEN;
     int m_numOfBalls;
+    float weight = 1.0;
     SDL_Event m_event;
 
     Graphics *m_graphics;
+    Camera *m_camera;
     //keyboard inputs
     unsigned int m_DT, input, camInput;
     bool w, a, s, d, r, f;

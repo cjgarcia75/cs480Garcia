@@ -73,7 +73,6 @@ void Engine::Run()
     m_graphics->Update(m_DT, input);
     m_graphics->Render(w, a, s, d, r, f, m_DT, m_event.motion.x, m_event.motion.y, camInput);
     
-
     // Swap to the Window
     m_window->Swap();
   }
@@ -94,6 +93,8 @@ void Engine::Keyboard()
       // end program
       case SDLK_ESCAPE: m_running = false; 
                         break;
+      case SDLK_k: m_graphics->initBalls(weight); 
+                        break;                   
       case SDLK_w: w = true; 
                         break;     
       case SDLK_s: s = true; 
@@ -149,8 +150,6 @@ void Engine::Keyboard()
       case SDLK_UP: f = false; 
                         break;
       case SDLK_DOWN: r = false; 
-                        break;
-      case SDLK_l: m_graphics->SwitchShader();
                         break;
     }
   }

@@ -17,6 +17,7 @@ Graphics::~Graphics()
 bool Graphics::Initialize(int width, int height, std::string vsFile, std::string fsFile, int numOfBalls)
 {
   g_numOfBalls = numOfBalls;
+  m_ballWeight = 0.0;
   // Used for the linux OS
   #if !defined(__APPLE__) && !defined(MACOSX)
     // cout << glewGetString(GLEW_VERSION) << endl;
@@ -68,12 +69,16 @@ bool Graphics::Initialize(int width, int height, std::string vsFile, std::string
   }
   //set rest of objects
   bumper1 = new Object("../assets/CylinderBouncers.obj", "../assets/chrome.jpeg", "bouncer1", 1.0, 1.0, btVector3(-17, -42, 14));
-  bumper2 = new Object("../assets/CylinderBouncers.obj", "../assets/chrome.jpeg", "bouncer2", 1.0, 1.0, btVector3(-27, -44, 12));
+  bumper2 = new Object("../assets/CylinderBouncers.obj", "../assets/chrome.jpeg", "bouncer2", 1.0, 1.0, btVector3(-28, -44, 14));
   bumper3 = new Object("../assets/CylinderBouncers.obj", "../assets/chrome.jpeg", "bouncer3", 1.0, 1.0, btVector3(-24, -44, 15));
+
+  twisty = new Object("../assets/twisty.obj", "../assets/wood.jpeg", "bouncer3", 0.0, 0.0, btVector3(-6.5, -82, -7));
+  bucket = new Object("../assets/bucket.obj", "../assets/wood.jpeg", "bouncer3", 0.0, 0.0, btVector3(180, -160, 5));
+
   obsticle1 = new Object("../assets/Obsticle1Fix.obj", "../assets/wood.jpeg", "obsticle1", 0.0, 0.0, btVector3(-17, -42, 14));
   ramp2 = new Object("../assets/Ramp2Fix.obj", "../assets/wood.jpeg", "slide1", 0.0, 0.0, btVector3(-33, -68, -34.5));
   //rotator = new Object("../assets/rotatorFix.obj", "../assets/wood.jpeg", "rotator", 0.0, 0.0, btVector3(0, 0, 0));
-  slide1 = new Object("../assets/slide1Fix.obj", "../assets/wood.jpeg", "slide1", 0.0, 0.0, btVector3(-6.5, -75, -26));
+  slide1 = new Object("../assets/slide1Fix.obj", "../assets/wood.jpeg", "slide1", 0.0, 0.0, btVector3(-6.5, -76, -24));
   funnel = new Object("../assets/Funnelfix.obj", "../assets/brick.jpeg", "funnel", 0.0, 0.0, btVector3(0, 0, 0));
   tunnel = new Object("../assets/TunnelFix.obj", "../assets/wood.jpeg", "tunnel", 0.0, 0.0, btVector3(0, -12, 0));
   tunnelJump = new Object("../assets/TunnelJumpFix.obj", "../assets/wood.jpeg", "tunnelJump", 0.0, 0.0, btVector3(-50, -49, 10));
@@ -91,6 +96,8 @@ bool Graphics::Initialize(int width, int height, std::string vsFile, std::string
   dynamicsWorld->addRigidBody(funnel->GetRigidBody());
   dynamicsWorld->addRigidBody(tunnel->GetRigidBody());
   dynamicsWorld->addRigidBody(tunnelJump->GetRigidBody());
+  dynamicsWorld->addRigidBody(twisty->GetRigidBody());
+  dynamicsWorld->addRigidBody(bucket->GetRigidBody());
 
   bumper1->GetRigidBody()->setActivationState(DISABLE_DEACTIVATION);
   bumper1->GetRigidBody()->setCollisionFlags(bumper1->GetRigidBody()->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
@@ -101,7 +108,7 @@ bool Graphics::Initialize(int width, int height, std::string vsFile, std::string
 
   // Set up the shaders
   m_shader = new Shader();
-  //otherShader = new Shader();
+  otherShader = new Shader();
   if(!m_shader->Initialize())
   {
     printf("Shader Failed to Initialize\n");
@@ -154,35 +161,35 @@ bool Graphics::Initialize(int width, int height, std::string vsFile, std::string
   }
 
   /// For other shader
-  /*if(!otherShader->Initialize())
+  if(!otherShader->Initialize())
   {
     printf("Shader Failed to Initialize\n");
     return false;
-  }*/
+  }
 
   // Add the vertex shader
-  /*if(!otherShader->AddShader(GL_VERTEX_SHADER, "../shaders/cube_shader-vV2.txt", "../shaders/vertex_shader-fv2.txt"))
+  if(!otherShader->AddShader(GL_VERTEX_SHADER, "../shaders/vShader.vs", "../shaders/fShader.fs"))
   {
     printf(" hereVertex Shader failed to Initialize\n");
     return false;
   }
 
   // Add the fragment shader
-  if(!otherShader->AddShader(GL_FRAGMENT_SHADER, "../shaders/cube_shader-vV2.txt", "../shaders/vertex_shader-fv2.txt"))
+  if(!otherShader->AddShader(GL_FRAGMENT_SHADER, "../shaders/vShader.vs", "../shaders/fShader.fs"))
   {
     printf("Fragment Shader failed to Initialize\n");
     return false;
-  }*/
+  }
 
   // Connect the program
-  /*if(!otherShader->Finalize())
+  if(!otherShader->Finalize())
   {
     printf("Program to Finalize\n");
     return false;
-  }*/
+  }
 
   // Locate the projection matrix in the shader
-  /*otherProjectionMatrix = otherShader->GetUniformLocation("projectionMatrix");
+  otherProjectionMatrix = otherShader->GetUniformLocation("projectionMatrix");
   if (otherProjectionMatrix == INVALID_UNIFORM_LOCATION)
   {
     printf("other_projectionMatrix not found\n");
@@ -203,13 +210,23 @@ bool Graphics::Initialize(int width, int height, std::string vsFile, std::string
   {
     printf("other_modelMatrix not found\n");
     return false;
-  }*/
+  }
 
   //enable depth testing
   glEnable(GL_DEPTH_TEST);
   glDepthFunc(GL_LESS);
 
   return true;
+}
+
+void Graphics::initBalls(float weight)
+{
+  for (int i = 0; i < g_numOfBalls; i++)
+  {
+    balls[i] = new Object("../assets/ball.obj", "../assets/brick.jpeg", "ball", 1.0, 1.0, btVector3((12 - (i*2)) , 5.3, i));
+    balls[i]->GetRigidBody()->setActivationState(DISABLE_DEACTIVATION);
+    dynamicsWorld->addRigidBody(balls[i]->GetRigidBody());
+  }
 }
 
 void Graphics::Update(unsigned int dt, unsigned int input)
@@ -231,6 +248,8 @@ void Graphics::Update(unsigned int dt, unsigned int input)
   funnel->Update(input);
   tunnel->Update(input);
   tunnelJump->Update(input);
+  twisty->Update(input);
+  bucket->Update(input);
 }
 
 void Graphics::Render(bool w, bool a, bool s, bool d, bool r, bool f, unsigned int dt, double xPos, double yPos, unsigned int camInput)
@@ -238,175 +257,254 @@ void Graphics::Render(bool w, bool a, bool s, bool d, bool r, bool f, unsigned i
   //clear the screen
   glClearColor(0.0, 0.0, 0.2, 1.0);
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  
-  float color[3],
-        amb[3] = {0.5f, 0.5f, 0.5f},
-        diff[3] = {0.5f, 0.5f, 0.5f},
-        spec[3] = {0.5f, 0.5f, 0.5f},
-        cons = 1.0f,
-        lin = 0.09f,
-        quad = 0.032f;
-  
-  for (int i = 0; i < g_numOfBalls; i++)
-  {
-    tempMat = balls[i]->GetModel();
-    tempVec[i+3] = glm::vec3(tempMat[3]);  
-  }
-  if (switchShader == 0)
-  {  
-    // Start the correct program
-    m_shader->Enable();
-    
-    //Lighting
-    GLint temp;
-    temp = m_shader->GetUniformLocation("numOfLights");
-    glUniform1i(temp, g_numOfBalls + 3);
-    if (g_numOfBalls > 0)
-    {
-      color[0] = 1.0f;
-      color[1] = 0.0f;
-      color[2] = 0.0f;      
+ 
+      // Start the correct program
+      m_shader->Enable();
       
-      SetLights(3, tempVec, color, amb, diff, spec, cons, lin, quad);
-    }
-    //ball 2
+      //Lighting
+      GLint temp;
+      temp = m_shader->GetUniformLocation("numOfLights");
+      glUniform1i(temp, g_numOfBalls + 3);
+    float color[3],
+          amb[3] = {0.5f, 0.5f, 0.5f},
+          diff[3] = {0.5f, 0.5f, 0.5f},
+          spec[3] = {0.5f, 0.5f, 0.5f},
+          cons = 1.0f,
+          lin = 0.09f,
+          quad = 0.032f;
     
-    if (g_numOfBalls > 1)
+    for (int i = 0; i < g_numOfBalls; i++)
     {
-      color[0] = 0.0f;
-      color[1] = 1.0f;
-      color[2] = 0.0f;      
-      
-      SetLights(4, tempVec, color, amb, diff, spec, cons, lin, quad);
+      tempMat = balls[i]->GetModel();
+      tempVec[i+3] = glm::vec3(tempMat[3]);  
     }
-    
-    //ball 3
-    if (g_numOfBalls > 2)
-    {
-      color[0] = 0.0f;
-      color[1] = 0.0f;
-      color[2] = 1.0f;      
+    if (switchShader == 1)
+    {  
+      // Start the correct program
+      m_shader->Enable();
       
-      SetLights(5, tempVec, color, amb, diff, spec, cons, lin, quad);
-    }
+      //Lighting
+      GLint temp;
+      temp = m_shader->GetUniformLocation("numOfLights");
+      glUniform1i(temp, g_numOfBalls + 3);
+      if (g_numOfBalls > 0)
+      {
+        color[0] = 1.0f;
+        color[1] = 0.0f;
+        color[2] = 0.0f;      
+        
+        SetLights(3, tempVec, color, amb, diff, spec, cons, lin, quad);
+      }
+      //ball 2
+      
+      if (g_numOfBalls > 1)
+      {
+        color[0] = 0.0f;
+        color[1] = 1.0f;
+        color[2] = 0.0f;      
+        
+        SetLights(4, tempVec, color, amb, diff, spec, cons, lin, quad);
+      }
+      
+      //ball 3
+      if (g_numOfBalls > 2)
+      {
+        color[0] = 0.0f;
+        color[1] = 0.0f;
+        color[2] = 1.0f;      
+        
+        SetLights(5, tempVec, color, amb, diff, spec, cons, lin, quad);
+      }
 
-        //ball 4
-    if (g_numOfBalls > 3)
-    {
+          //ball 4
+      if (g_numOfBalls > 3)
+      {
+        color[0] = 0.1f;
+        color[1] = 0.9f;
+        color[2] = 1.0f;      
+        
+        SetLights(6, tempVec, color, amb, diff, spec, cons, lin, quad);
+      }
+
+          //ball 5
+      if (g_numOfBalls > 4)
+      {
+        color[0] = 0.5f;
+        color[1] = 0.1f;
+        color[2] = 0.7f;      
+        
+        SetLights(7, tempVec, color, amb, diff, spec, cons, lin, quad);
+      }
+
+          //ball 6
+      if (g_numOfBalls > 5)
+      {
+        color[0] = 0.9f;
+        color[1] = 0.2f;
+        color[2] = 0.3f;      
+        
+        SetLights(8, tempVec, color, amb, diff, spec, cons, lin, quad);
+      }
+
+          //ball 7
+      if (g_numOfBalls > 6)
+      {
+        color[0] = 0.3f;
+        color[1] = 0.5f;
+        color[2] = 0.5f;      
+        
+        SetLights(9, tempVec, color, amb, diff, spec, cons, lin, quad);
+      }
+
+          //ball 8
+      if (g_numOfBalls > 7)
+      {
+        color[0] = 1.0f;
+        color[1] = 1.0f;
+        color[2] = 0.0f;      
+        
+        SetLights(10, tempVec, color, amb, diff, spec, cons, lin, quad);
+      }
+
+          //ball 9
+      if (g_numOfBalls > 8)
+      {
+        color[0] = 1.0f;
+        color[1] = 0.0f;
+        color[2] = 1.0f;      
+        
+        SetLights(11, tempVec, color, amb, diff, spec, cons, lin, quad);
+      }
+
+          //ball 10
+      if (g_numOfBalls > 9)
+      {
+        color[0] = 0.0f;
+        color[1] = 1.0f;
+        color[2] = 1.0f;      
+        
+        SetLights(12, tempVec, color, amb, diff, spec, cons, lin, quad);
+      }
+      //bumper lights1
+      
+      tempMat = bumper1->GetModel();
+      tempVec[0] = glm::vec3(tempMat[3]);  
+      
       color[0] = 0.1f;
       color[1] = 0.9f;
       color[2] = 1.0f;      
+        
+      SetLights(0, tempVec, color, amb, diff, spec, cons, lin, quad);
       
-      SetLights(6, tempVec, color, amb, diff, spec, cons, lin, quad);
-    }
-
-        //ball 5
-    if (g_numOfBalls > 4)
-    {
-      color[0] = 0.5f;
-      color[1] = 0.1f;
-      color[2] = 0.7f;      
+      //bumperlights2
+      tempMat = bumper2->GetModel();
+      tempVec[1] = glm::vec3(tempMat[3]);  
       
-      SetLights(7, tempVec, color, amb, diff, spec, cons, lin, quad);
-    }
-
-        //ball 6
-    if (g_numOfBalls > 5)
-    {
-      color[0] = 0.9f;
-      color[1] = 0.2f;
-      color[2] = 0.3f;      
-      
-      SetLights(8, tempVec, color, amb, diff, spec, cons, lin, quad);
-    }
-
-        //ball 7
-    if (g_numOfBalls > 6)
-    {
-      color[0] = 0.3f;
-      color[1] = 0.5f;
-      color[2] = 0.5f;      
-      
-      SetLights(9, tempVec, color, amb, diff, spec, cons, lin, quad);
-    }
-
-        //ball 8
-    if (g_numOfBalls > 7)
-    {
-      color[0] = 1.0f;
-      color[1] = 1.0f;
+      color[0] = 0.8f;
+      color[1] = 0.4f;
       color[2] = 0.0f;      
-      
-      SetLights(10, tempVec, color, amb, diff, spec, cons, lin, quad);
-    }
+        
+      SetLights(1, tempVec, color, amb, diff, spec, cons, lin, quad);
 
-        //ball 9
-    if (g_numOfBalls > 8)
-    {
-      color[0] = 1.0f;
-      color[1] = 0.0f;
-      color[2] = 1.0f;      
+      //bumper lights3
+      tempMat = bumper3->GetModel();
+      tempVec[2] = glm::vec3(tempMat[3]);  
       
-      SetLights(11, tempVec, color, amb, diff, spec, cons, lin, quad);
-    }
+      color[0] = 0.6f;
+      color[1] = 0.2f;
+      color[2] = 0.6f;      
+        
+      SetLights(2, tempVec, color, amb, diff, spec, cons, lin, quad);
 
-        //ball 10
-    if (g_numOfBalls > 9)
-    {
-      color[0] = 0.0f;
-      color[1] = 1.0f;
-      color[2] = 1.0f;      
-      
-      SetLights(12, tempVec, color, amb, diff, spec, cons, lin, quad);
-    }
-    //bumper lights1
-    
-    tempMat = bumper1->GetModel();
-    tempVec[0] = glm::vec3(tempMat[3]);  
-    
-    color[0] = 0.1f;
-    color[1] = 0.9f;
-    color[2] = 1.0f;      
-      
-    SetLights(0, tempVec, color, amb, diff, spec, cons, lin, quad);
-    
-    //bumperlights2
-    tempMat = bumper2->GetModel();
-    tempVec[1] = glm::vec3(tempMat[3]);  
-    
-    color[0] = 0.8f;
-    color[1] = 0.4f;
-    color[2] = 0.0f;      
-      
-    SetLights(1, tempVec, color, amb, diff, spec, cons, lin, quad);
+      // Send in the projection and view to the shader
+      //m_camera->mouseInput(xPos, yPos);
+      m_camera->Update(w, a, s, d, r, f, tempVec[camInput]);
+      //m_camera->mouseInput(xPos, yPos);
+      glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
+      glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
-    //bumper lights3
-    tempMat = bumper3->GetModel();
-    tempVec[2] = glm::vec3(tempMat[3]);  
-    
-    color[0] = 0.6f;
-    color[1] = 0.2f;
-    color[2] = 0.6f;      
+      flag = false;
+
+      // ball
+      //if (switchShader == 1)
+      //{
+        for (int j = 0; j < g_numOfBalls; j++)
+        {
+          glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(balls[j]->GetModel()));
+          balls[j]->Render(m_modelMatrix, m_shader, flag);
+        }
+      //}
+      //bumper1
+      glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(bumper1->GetModel()));
+      bumper1->Render(m_modelMatrix, m_shader, flag);
+
+          //bumper2
+      glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(bumper2->GetModel()));
+      bumper2->Render(m_modelMatrix, m_shader, flag);
+
+          //bumper3
+      glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(bumper3->GetModel()));
+      bumper3->Render(m_modelMatrix, m_shader, flag);
+
+      // obsticle1
+      glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(obsticle1->GetModel()));
+      obsticle1->Render(m_modelMatrix, m_shader, flag);
       
-    SetLights(2, tempVec, color, amb, diff, spec, cons, lin, quad);
+      // ramp2
+      glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(ramp2->GetModel()));
+      ramp2->Render(m_modelMatrix, m_shader, flag);
+      
+      // rotator
+      //glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(rotator->GetModel()));
+      //rotator->Render(m_modelMatrix, m_shader, flag);
+      
+      // slide1
+      glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(slide1->GetModel()));
+      slide1->Render(m_modelMatrix, m_shader, flag);
+      
+      // funnel
+      glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(funnel->GetModel()));
+      funnel->Render(m_modelMatrix, m_shader, flag);
+      
+      //tunnel
+      glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(tunnel->GetModel()));
+      tunnel->Render(m_modelMatrix, m_shader, flag);
+
+      //tunnelJump
+      glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(tunnelJump->GetModel()));
+      tunnelJump->Render(m_modelMatrix, m_shader, flag);
+
+      glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(twisty->GetModel()));
+      twisty->Render(m_modelMatrix, m_shader, flag);
+
+      glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(bucket->GetModel()));
+      bucket->Render(m_modelMatrix, m_shader, flag);
+
+      // Get any errors from OpenGL
+      auto error = glGetError();
+      if ( error != GL_NO_ERROR )
+      {
+        string val = ErrorString( error );
+        std::cout<< "Error initializing OpenGL! " << error << ", " << val << std::endl;
+      }
+  }
+  else if (switchShader == 0)
+  {
+    glClearColor(0.0, 0.0, 0.2, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // Start the correct program
+    otherShader->Enable();
+
+    tempMat = bucket->GetModel();
+    tempVec[14] = glm::vec3(tempMat[3]); 
 
     // Send in the projection and view to the shader
-    //m_camera->mouseInput(xPos, yPos);
-    m_camera->Update(w, a, s, d, r, f, tempVec[camInput]);
-    //m_camera->mouseInput(xPos, yPos);
-    glUniformMatrix4fv(m_projectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
-    glUniformMatrix4fv(m_viewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
+    glUniformMatrix4fv(otherProjectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
+    glUniformMatrix4fv(otherViewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
 
     flag = false;
 
-    // ball
-    for (int j = 0; j < g_numOfBalls; j++)
-    {
-      glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(balls[j]->GetModel()));
-      balls[j]->Render(m_modelMatrix, m_shader, flag);
-    }
-
-    //bumper1
+        //bumper1
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(bumper1->GetModel()));
     bumper1->Render(m_modelMatrix, m_shader, flag);
 
@@ -446,7 +544,14 @@ void Graphics::Render(bool w, bool a, bool s, bool d, bool r, bool f, unsigned i
     glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(tunnelJump->GetModel()));
     tunnelJump->Render(m_modelMatrix, m_shader, flag);
 
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(twisty->GetModel()));
+    twisty->Render(m_modelMatrix, m_shader, flag);
+
+    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(bucket->GetModel()));
+    bucket->Render(m_modelMatrix, m_shader, flag);
+
     // Get any errors from OpenGL
+    m_camera->Update(w, a, s, d, r, f, tempVec[camInput]);
     auto error = glGetError();
     if ( error != GL_NO_ERROR )
     {
@@ -454,76 +559,6 @@ void Graphics::Render(bool w, bool a, bool s, bool d, bool r, bool f, unsigned i
       std::cout<< "Error initializing OpenGL! " << error << ", " << val << std::endl;
     }
   }
-  /*else if (switchShader == 1)
-  {
-    // Start the correct program
-    otherShader->Enable();
-
-    tempMat = obsticle1->GetModel();
-    tempVec[0] = glm::vec3(tempMat[3]); 
-    
-    GLint temp;
-    temp = m_shader->GetUniformLocation("numOfLights");
-    glUniform1i(temp, 1);
-    temp = m_shader->GetUniformLocation("lightColor");
-    glUniform3f(temp, 1.0, 1.0, 0.5);
-    temp = m_shader->GetUniformLocation("light[0].position");
-    glUniform3f(temp, tempVec[0].x, tempVec[0].y, tempVec[0].z); // these zeros need to be the position of the ball tempVec.x, tempVec.y, tempVec.z
-    temp = m_shader->GetUniformLocation("light[0].ambient");
-    glUniform3f(temp, 1.1f, 1.1f, 1.1f);
-    temp = m_shader->GetUniformLocation("light[0].diffuse");
-    glUniform3f(temp, 0.8f, 0.8f, 0.8f);
-    temp = m_shader->GetUniformLocation("light[0].specular");
-    glUniform3f(temp, 1.0f, 1.0f, 1.0f);
-    temp = m_shader->GetUniformLocation("light[0].constant");
-    glUniform1f(temp, 1.0f);
-    temp = m_shader->GetUniformLocation("light[0].linear");
-    glUniform1f(temp, 0.09f);
-    temp = m_shader->GetUniformLocation("light[0].quadratic");
-    glUniform1f(temp, 0.032f);
-
-    // Send in the projection and view to the shader
-    glUniformMatrix4fv(otherProjectionMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetProjection())); 
-    glUniformMatrix4fv(otherViewMatrix, 1, GL_FALSE, glm::value_ptr(m_camera->GetView())); 
-
-    flag = false;
-    
-    // obsticle1
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(obsticle1->GetModel()));
-    obsticle1->Render(m_modelMatrix, m_shader, flag);
-    
-    // ramp2
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(ramp2->GetModel()));
-    ramp2->Render(m_modelMatrix, m_shader, flag);
-    
-    // rotator
-    //glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(rotator->GetModel()));
-    //rotator->Render(m_modelMatrix, m_shader, flag);
-    
-    // slide1
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(slide1->GetModel()));
-    slide1->Render(m_modelMatrix, m_shader, flag);
-    
-    // funnel
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(funnel->GetModel()));
-    funnel->Render(m_modelMatrix, m_shader, flag);
-    
-    // tunnel
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(tunnel->GetModel()));
-    tunnel->Render(m_modelMatrix, m_shader, flag);
-
-    //tunnelJump
-    glUniformMatrix4fv(m_modelMatrix, 1, GL_FALSE, glm::value_ptr(tunnelJump->GetModel()));
-    tunnelJump->Render(m_modelMatrix, m_shader, flag);
-
-    // Get any errors from OpenGL
-    auto error = glGetError();
-    if ( error != GL_NO_ERROR )
-    {
-      string val = ErrorString( error );
-      std::cout<< "Error initializing OpenGL! " << error << ", " << val << std::endl;
-    }
-  }*/
 }
 
 void Graphics::SetLights(int ballNum, glm::vec3 tempVec[], float lc[3], float a[3], float d[3], float s[3], float c, float l, float q)
@@ -612,4 +647,14 @@ std::string Graphics::ErrorString(GLenum error)
 void Graphics::SwitchShader()
 {
   switchShader ? switchShader = false : switchShader = true;
+}
+
+void Graphics::setWeight(float weight)
+{
+  m_ballWeight = weight;
+}
+
+float Graphics::getWeight()
+{
+  return m_ballWeight;
 }

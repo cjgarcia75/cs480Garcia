@@ -17,12 +17,17 @@ class Graphics
     bool Initialize(int width, int height, std::string vsFile, std::string fsFile, int numOfBalls);
     void Update(unsigned int dt, unsigned int input);
     void Render(bool w, bool a, bool s, bool d, bool r, bool f, unsigned int dt, double xPos, double yPos, unsigned int camInput);
-    void SetLights(int ballNum, glm::vec3 tempVec[], float lc[3], float a[3], float d[3], float s[3], float c, float l, float q);
     void SwitchShader();
     
     bool BulletInit();
     bool switchShader;
     btDiscreteDynamicsWorld* GetDynamicsWorld() const;
+
+    void initBalls(float wieght);
+    void SetLights(int ballNum, glm::vec3 tempVec[], float lc[3], float a[3], float d[3], float s[3], float c, float l, float q);
+
+    void setWeight(float wieght);
+    float getWeight();
 
   private:
     std::string ErrorString(GLenum error);
@@ -33,6 +38,7 @@ class Graphics
     Shader *otherShader;
 
     bool flag = true;
+    float m_ballWeight;
 
     GLint m_projectionMatrix;
     GLint m_viewMatrix;
@@ -53,6 +59,8 @@ class Graphics
     Object *funnel;
     Object *tunnel;
     Object *tunnelJump;
+    Object *twisty;
+    Object *bucket;
 
     glm::mat4 tempMat;
     glm::vec3 tempVec[15];
