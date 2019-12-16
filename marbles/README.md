@@ -32,3 +32,5 @@ Move camera:
     up: zoom in
     
     down: zoom out
+    
+    left/right: change focus
