@@ -15,7 +15,7 @@ mkdir build
 cd build
 cmake ..
 make
-./marbles
+./marbles 10
 ```
 
 ## Controls
